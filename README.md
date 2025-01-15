@@ -1,8 +1,10 @@
-### Jalankan Perintah di bawah untuk login sebagai admin
-```bash
-php artisan migrate --seed
-```
+### Langkah-langkah untuk Login sebagai Admin
 
-### Login dengan memasukkan
-##### email: admin@example.com
-##### password: admin
+1. Jalankan perintah berikut untuk melakukan migrasi dan seeding database:
+    ```bash
+    php artisan migrate --seed
+    ```
+
+2. Setelah itu, login menggunakan kredensial berikut:
+    - **Email**: `admin@example.com`
+    - **Password**: `admin`
