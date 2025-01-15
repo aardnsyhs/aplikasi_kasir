@@ -2,3 +2,7 @@
 ```bash
 php artisan migrate --seed
 ```
+
+### Login dengan memasukkan
+##### email: admin@example.com
+##### password: admin
