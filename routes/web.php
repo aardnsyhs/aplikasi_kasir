@@ -8,11 +8,11 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Route::resource('products', ProdukController::class)->middleware(['auth', 'verified']);
+Route::resource('produk', ProdukController::class)->middleware('auth');
 
-Route::get('/pendataan-barang', function () {
-    return view('barang.pendataan-barang');
-})->middleware(['auth', 'verified'])->name('pendataan-barang');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {

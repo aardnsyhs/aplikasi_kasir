@@ -3,39 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Http\Requests\StoreProdukRequest;
+use App\Http\Requests\UpdateProdukRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
-        $products = Produk::latest()->paginate(10);
-        // dd($products);
-        return view('barang.pendataan-barang', compact('products'));
+        $produk = Produk::paginate(10);
+        return view('produk.index', compact('produk'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
-        return view('components.tambah-barang');
+        return view('produk.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreProdukRequest $request): RedirectResponse
     {
-        Produk::create($request->all());
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer',
+        ]);
 
-        return redirect()->route('products')
-                ->with('success', 'Produk berhasil ditambahkan.');
+        Produk::create($validated);
+        return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan');
     }
 
     /**
@@ -51,15 +54,22 @@ class ProdukController extends Controller
      */
     public function edit(Produk $produk)
     {
-        //
+        return view('produk.edit', compact('produk'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Produk $produk)
+    public function update(UpdateProdukRequest $request, Produk $produk)
     {
-        //
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer',
+        ]);
+
+        $produk->update($validated);
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
     /**
@@ -67,6 +77,7 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
-        //
+        $produk->delete();
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus!');
     }
 }

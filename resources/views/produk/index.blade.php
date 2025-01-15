@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Pendataan Barang') }}
+            {{ __('Pendataan Produk') }}
         </h2>
     </x-slot>
 
@@ -30,8 +30,7 @@
                     </div>
                     <div
                         class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                        <button type="button" id="defaultModalButton" data-modal-target="defaultModal"
-                            data-modal-toggle="defaultModal"
+                        <a href="{{ route('produk.create') }}"
                             class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                             <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -39,7 +38,7 @@
                                     d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                             </svg>
                             Tambah Produk
-                        </button>
+                        </a>
                         <div class="flex items-center space-x-3 w-full md:w-auto">
                             <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
                                 class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -93,16 +92,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($products as $product)
+                            @forelse ($produk as $item)
                                 <tr class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $product->nama_produk }}</th>
-                                    <td class="px-4 py-3">{{ $product->harga }}</td>
-                                    <td class="px-4 py-3">{{ $product->stok }}</td>
+                                        {{ $item->nama_produk }}</th>
+                                    <td class="px-4 py-3">Rp.{{ number_format($item->harga, 2) }}</td>
+                                    <td class="px-4 py-3">{{ $item->stok }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
-                                        <button id="apple-imac-27-dropdown-button"
-                                            data-dropdown-toggle="apple-imac-27-dropdown"
+                                        <button id="show-action-button-{{ $item->id }}"
+                                            data-dropdown-toggle="show-action-{{ $item->id }}"
                                             class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                             type="button">
                                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -111,29 +110,30 @@
                                                     d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                             </svg>
                                         </button>
-                                        <div id="apple-imac-27-dropdown"
+                                        <div id="show-action-{{ $item->id }}"
                                             class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="apple-imac-27-dropdown-button">
+                                                aria-labelledby="show-action-button">
                                                 <li>
                                                     <a href="#"
                                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                                 </li>
                                                 <li>
-                                                    <button type="button" id="updateProductButton"
-                                                        data-modal-target="updateProductModal"
-                                                        data-modal-toggle="updateProductModal"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
+                                                    <a href="{{ route('produk.edit', $item) }}"
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                                 </li>
                                             </ul>
                                             <div class="py-1">
-                                                <a href="#"
+                                                <a href="{{ route('produk.destroy', $item) }}"
                                                     class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
+                                <tr>
+                                    <td colspan="4" class="px-4 py-3 text-center">Data tidak ditemukan</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -142,9 +142,11 @@
                     aria-label="Table navigation">
                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                         Showing
-                        <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
+                        <span class="font-semibold text-gray-900 dark:text-white">{{ $produk->firstItem() }}</span>
+                        to
+                        <span class="font-semibold text-gray-900 dark:text-white">{{ $produk->lastItem() }}</span>
                         of
-                        <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+                        <span class="font-semibold text-gray-900 dark:text-white">{{ $produk->total() }}</span>
                     </span>
                     <ul class="inline-flex items-stretch -space-x-px">
                         <li>
@@ -196,6 +198,4 @@
             </div>
         </div>
     </section>
-    <x-tambah-barang />
-    <x-edit-barang />
 </x-app-layout>
