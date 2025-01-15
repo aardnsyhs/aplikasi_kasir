@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/pendataan-barang', function () {
+    return view('pendataan-barang');
+})->middleware(['auth', 'verified'])->name('pendataan-barang');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
