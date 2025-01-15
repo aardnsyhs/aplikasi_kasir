@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,6 +10,7 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::resource('produk', ProdukController::class)->middleware('auth');
+Route::resource('user', UserController::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
