@@ -25,14 +25,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'nama_lengkap' => 'required|string|max:255',
-            'role' => 'nullable|string|max:50',
-        ]);
-
+        $validated = $request->validate();
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
 
@@ -57,14 +50,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8',
-            'nama_lengkap' => 'required|string|max:255',
-            'role' => 'nullable|string|max:50',
-        ]);
-
+        $validated = $request->validated();
         if ($request->password) {
             $validated['password'] = Hash::make($request->password);
         } else {
