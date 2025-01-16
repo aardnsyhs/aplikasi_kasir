@@ -5,6 +5,9 @@
         </h2>
     </x-slot>
 
+    <x-alert-add-success />
+    <x-confirm-delete />
+
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -125,10 +128,11 @@
                                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                                 </li>
                                             </ul>
-                                            <div class="py-1">
-                                                <a href="{{ route('user.destroy', $item) }}"
-                                                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                                            </div>
+                                            <button type="button"
+                                                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                onclick="openDeleteModal({{ $item->id }}, 'user')">
+                                                Delete
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

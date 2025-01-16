@@ -33,7 +33,7 @@ class ProdukController extends Controller
     {
         $validated = $request->validated();
         Produk::create($validated);
-        return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan');
+        return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan.');
     }
 
     /**
