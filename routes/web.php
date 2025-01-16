@@ -11,6 +11,7 @@ Route::get('/', function () {
 
 Route::resource('produk', ProdukController::class)->middleware('auth');
 Route::resource('user', UserController::class)->middleware('auth');
+Route::get('search', [ProdukController::class, 'search'])->name('produk.search');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

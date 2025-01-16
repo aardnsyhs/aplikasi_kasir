@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Http\Requests\StoreProdukRequest;
 use App\Http\Requests\UpdateProdukRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
@@ -69,5 +70,15 @@ class ProdukController extends Controller
     {
         $produk->delete();
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus!');
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->input('search');
+
+        $produk = Produk::where('nama_produk', 'like', '%' . $q . '%')
+                        ->paginate(10);
+
+        return view('produk.index', compact('produk', 'q'));
     }
 }
