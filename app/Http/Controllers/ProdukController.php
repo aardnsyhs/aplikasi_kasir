@@ -31,12 +31,7 @@ class ProdukController extends Controller
      */
     public function store(StoreProdukRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-        ]);
-
+        $validated = $request->validated();
         Produk::create($validated);
         return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan');
     }
@@ -62,12 +57,7 @@ class ProdukController extends Controller
      */
     public function update(UpdateProdukRequest $request, Produk $produk)
     {
-        $validated = $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-        ]);
-
+        $validated = $request->validated();
         $produk->update($validated);
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
