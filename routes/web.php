@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
+Route::get('/cart', function () {
+    return view('pembelian.cart');
+})->middleware(['auth', 'petugas']);
+
 Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
     Route::resource('stok', StokController::class);

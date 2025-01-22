@@ -16,7 +16,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M7 4v16M7 4l3 3M7 4 4 7m9-3h6l-6 6h6m-6.5 10 3.5-7 3.5 7M14 18h4" />
                         </svg>
-                        Sort
+                        Urutkan
                         <svg class="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="">
+                    <a href="/cart">
                         <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="48" height="48" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -74,9 +74,10 @@
             <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
                 @forelse ($produk as $item)
                     <div
-                        class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                        class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div class="h-56 w-full">
-                            <img class="mx-auto h-full dark:hidden" src="https://placehold.co/600x400" alt="" />
+                            <img class="mx-auto h-full dark:hidden" src="https://placehold.co/600x400"
+                                alt="{{ $item->nama_produk }}" />
                             <img class="mx-auto hidden h-full dark:block" src="https://placehold.co/600x400"
                                 alt="{{ $item->nama_produk }}" />
                         </div>
