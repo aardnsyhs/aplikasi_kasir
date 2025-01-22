@@ -6,33 +6,40 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="{{ asset('assets/logo.png') }}" alt="logo"
+                            class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('produk.index')" :active="request()->routeIs('produk.*')">
-                        {{ __('Produk') }}
-                    </x-nav-link>
-                </div>
-                @if (Auth::check() && Auth::user()->role === 'admin')
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
-                            {{ __('User') }}
-                        </x-nav-link>
-                    </div>
+                @if (Auth::check())
+                    @php
+                        $links = [];
+
+                        if (Auth::user()->role === 'admin') {
+                            $links = [
+                                ['route' => 'dashboard', 'label' => 'Dashboard'],
+                                ['route' => 'user.index', 'label' => 'User'],
+                                ['route' => 'produk.index', 'label' => 'Produk'],
+                                ['route' => 'stok.index', 'label' => 'Stok'],
+                            ];
+                        } elseif (Auth::user()->role === 'petugas') {
+                            $links = [
+                                ['route' => 'produk.index', 'label' => 'Produk'],
+                                ['route' => 'stok.index', 'label' => 'Stok'],
+                                ['route' => 'pembelian.index', 'label' => 'Pembelian'],
+                            ];
+                        }
+                    @endphp
+
+                    @foreach ($links as $link)
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route($link['route'])" :active="request()->routeIs($link['route'] . '*')">
+                                {{ __($link['label']) }}
+                            </x-nav-link>
+                        </div>
+                    @endforeach
                 @endif
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('stok.index')" :active="request()->routeIs('stok.*')">
-                        {{ __('Stok') }}
-                    </x-nav-link>
-                </div>
             </div>
 
             <!-- Settings Dropdown -->

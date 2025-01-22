@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokController;
@@ -13,6 +14,7 @@ Route::get('/', function () {
 Route::resource('produk', ProdukController::class)->middleware('auth');
 Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('stok', StokController::class)->middleware('auth');
+Route::resource('pembelian', PembelianController::class)->middleware('auth');
 Route::get('search', [ProdukController::class, 'search'])->name('produk.search');
 
 Route::get('/dashboard', function () {
