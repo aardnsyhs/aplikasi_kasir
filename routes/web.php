@@ -16,6 +16,10 @@ Route::get('/cart', function () {
     return view('cart.index');
 })->middleware(['auth', 'petugas']);
 
+Route::get('/checkout', function () {
+    return view('checkout.index');
+})->middleware(['auth', 'petugas']);
+
 Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
     Route::resource('stok', StokController::class);
