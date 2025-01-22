@@ -17,7 +17,7 @@ class ProdukSeeder extends Seeder
         for ($i = 1; $i <= 100; $i++) {
             $data[] = [
                 'nama_produk' => 'Produk ' . $i,
-                'harga' => rand(1000, 1000000) / 100,
+                'harga' => rand(1000, 1000000),
                 'stok' => rand(1, 1000),
                 'created_at' => now(),
                 'updated_at' => now(),
