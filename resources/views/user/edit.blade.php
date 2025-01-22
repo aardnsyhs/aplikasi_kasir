@@ -3,46 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ isset($user) ? 'Edit User' : 'Tambah User' }}
         </h2>
     </x-slot>
-    {{--
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ isset($user) ? route('user.update', $user) : route('user.store') }}">
-                    @csrf
-                    @if (isset($user))
-                        @method('PUT')
-                    @endif
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Username</label>
-                        <input type="text" name="username" value="{{ $user->username ?? '' }}"
-                            class="w-full border-gray-300 rounded mt-1">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Email</label>
-                        <input type="email" name="email" value="{{ $user->email ?? '' }}"
-                            class="w-full border-gray-300 rounded mt-1">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Password</label>
-                        <input type="password" name="password" class="w-full border-gray-300 rounded mt-1">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" value="{{ $user->nama_lengkap ?? '' }}"
-                            class="w-full border-gray-300 rounded mt-1">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Role</label>
-                        <input type="text" name="role" value="{{ $user->role ?? '' }}"
-                            class="w-full border-gray-300 rounded mt-1">
-                    </div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
-                        {{ isset($user) ? 'Update' : 'Simpan' }}
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div> --}}
 
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -63,21 +23,26 @@
                                     <input type="text" name="username" value="{{ $user->username ?? '' }}"
                                         id="username"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan username Anda" required="">
+                                        placeholder="Masukkan username Anda">
+                                    @error('username')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="email"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Email</label>
                                     <input type="email" name="email" value="{{ $user->email ?? '' }}" id="email"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan email Anda" required="">
+                                        placeholder="Masukkan email Anda">
+                                    @error('email')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="password"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Password</label>
                                     <input type="password" name="password" id="password"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        required="">
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 </div>
                                 <div class="w-full">
                                     <label for="nama_lengkap"
@@ -86,14 +51,16 @@
                                     <input type="text" name="nama_lengkap" value="{{ $user->nama_lengkap ?? '' }}"
                                         id="nama_lengkap"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan nama lengkap Anda" required="">
+                                        placeholder="Masukkan nama lengkap Anda">
+                                    @error('nama_lengkap')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="role"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Role</label>
                                     <select name="role" id="role"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        required="">
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         <option value="" disabled selected>- Pilih role Anda -</option>
                                         <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin
                                         </option>

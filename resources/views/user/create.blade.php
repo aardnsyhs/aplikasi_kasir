@@ -22,25 +22,35 @@
                                     <label for="nama_lengkap"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
                                         Lengkap</label>
-                                    <input type="text" name="nama_lengkap" value="{{ $user->nama_lengkap ?? '' }}"
-                                        id="nama_lengkap"
+                                    <input type="text" name="nama_lengkap"
+                                        value="{{ old('nama_lengkap', $user->nama_lengkap ?? '') }}" id="nama_lengkap"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan nama lengkap Anda" required="">
+                                        placeholder="Masukkan nama lengkap Anda">
+                                    @error('nama_lengkap')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="username"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Username</label>
-                                    <input type="text" name="username" value="{{ $user->username ?? '' }}"
-                                        id="username"
+                                    <input type="text" name="username"
+                                        value="{{ old('username', $user->username ?? '') }}" id="username"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan username Anda" required="">
+                                        placeholder="Masukkan username Anda">
+                                    @error('username')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="email"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Email</label>
-                                    <input type="email" name="email" value="{{ $user->email ?? '' }}" id="email"
+                                    <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}"
+                                        id="email"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan email Anda" required="">
+                                        placeholder="Masukkan email Anda">
+                                    @error('email')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="password"
@@ -48,7 +58,10 @@
                                     <input type="password" name="password" value="{{ $user->password ?? '' }}"
                                         id="password"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan password Anda" required="">
+                                        placeholder="Masukkan password Anda">
+                                    @error('password')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label for="role"
@@ -59,6 +72,9 @@
                                         <option value="admin">Admin</option>
                                         <option value="petugas">Petugas</option>
                                     </select>
+                                    @error('role')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <button type="submit"

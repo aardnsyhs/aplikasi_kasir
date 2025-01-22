@@ -25,15 +25,21 @@
                                     <input type="text" name="nama_produk" value="{{ $produk->nama_produk ?? '' }}"
                                         id="nama_produk"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan nama produk" required="">
+                                        placeholder="Masukkan nama produk">
+                                    @error('nama_produk')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="harga"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4">Harga</label>
-                                    <input type="number" name="harga" value="{{ $produk->harga ?? '' }}"
-                                        id="harga"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Masukkan harga produk" required="">
+                                    <input type="number" name="harga"
+                                        value="{{ old('harga', $produk->harga ?? '') }}" id="harga" step="any"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('harga') border-red-600 dark:border-red-500 @enderror"
+                                        placeholder="Masukkan harga produk">
+                                    @error('harga')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="stok"
