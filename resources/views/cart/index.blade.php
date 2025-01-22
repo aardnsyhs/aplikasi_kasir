@@ -139,7 +139,6 @@
     }
 
     document.addEventListener('click', function(e) {
-        // Logika tombol decrement
         if (e.target.closest('.decrement-button')) {
             const button = e.target.closest('.decrement-button');
             const inputId = button.getAttribute('data-input-counter-decrement');
@@ -147,26 +146,22 @@
             if (input) {
                 let currentValue = parseInt(input.value) || 1;
                 if (currentValue > 1) {
-                    // Kirim ke server untuk memperbarui session
                     updateCartQuantity(input.getAttribute('data-input-counter'), currentValue - 1, input);
                 }
             }
         }
 
-        // Logika tombol increment
         if (e.target.closest('.increment-button')) {
             const button = e.target.closest('.increment-button');
             const inputId = button.getAttribute('data-input-counter-increment');
             const input = document.getElementById(inputId);
             if (input) {
                 let currentValue = parseInt(input.value) || 0;
-                // Kirim ke server untuk memperbarui session
                 updateCartQuantity(input.getAttribute('data-input-counter'), currentValue + 1, input);
             }
         }
     });
 
-    // Fungsi AJAX untuk memperbarui jumlah produk
     function updateCartQuantity(produk_id, quantity, input) {
         $.ajax({
             url: '{{ route('cart.update') }}',
@@ -178,7 +173,7 @@
             },
             success: function(response) {
                 if (response.success) {
-                    input.value = quantity; // Update UI setelah respons berhasil
+                    input.value = quantity;
                 } else {
                     alert('Gagal memperbarui jumlah produk!');
                 }
