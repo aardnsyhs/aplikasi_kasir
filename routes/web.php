@@ -14,7 +14,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
     Route::resource('stok', StokController::class);
-    Route::resource('pembelian', PembelianController::class);
+    Route::resource('pembelian', PembelianController::class)->middleware('petugas');
 
     Route::get('search', [ProdukController::class, 'search'])->name('produk.search');
 
