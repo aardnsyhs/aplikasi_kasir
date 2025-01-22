@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
@@ -12,7 +13,7 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/cart', function () {
-    return view('pembelian.cart');
+    return view('cart.index');
 })->middleware(['auth', 'petugas']);
 
 Route::middleware('auth')->group(function () {
@@ -34,6 +35,9 @@ Route::middleware('auth')->group(function () {
         })->name('dashboard');
         Route::resource('user', UserController::class);
     });
+
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 });
 
 require __DIR__ . '/auth.php';

@@ -90,6 +90,7 @@
                                 <p class="text-md font-extrabold leading-tight text-gray-900 dark:text-white">
                                     Rp.{{ number_format($item->harga, 2) }}</p>
                                 <button type="button"
+                                    onclick="addToCart({{ $item->id }}, '{{ $item->nama_produk }}', {{ $item->harga }}, {{ $item->stok }})"
                                     class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-3 py-1 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                     <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -114,3 +115,29 @@
         </div>
     </section>
 </x-app-layout>
+
+<script>
+    function addToCart(produk_id, nama_produk, harga, stok) {
+        $.ajax({
+            url: '{{ route('cart.add') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                produk_id: produk_id,
+                nama_produk: nama_produk,
+                harga: harga,
+                stok: stok
+            },
+            success: function(response) {
+                if (response) {
+                    alert('Produk berhasil ditambahkan ke keranjang!');
+                } else {
+                    alert('Produk gagal bng ditambahkan ke keranjang!');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Produk gagal ditambahkan ke keranjang!');
+            }
+        })
+    }
+</script>
