@@ -16,7 +16,7 @@ class CartController extends Controller
         $found = false;
         foreach ($cart as &$item) {
             if ($item['produk_id'] == $request->produk_id) {
-                $item['quantity'] = isset($item['quantity']) ? $item['quantity'] + 1 : 2;
+                $item['quantity'] += 1;
                 $found = true;
                 break;
             }
@@ -34,7 +34,31 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        return response()->json(['message' => 'Produk berhasil ditambahkan ke keranjang!']);
+        $totalItems = array_sum(array_column($cart, 'quantity'));
+
+        return response()->json([
+            'message' => 'Produk berhasil ditambahkan ke keranjang!',
+            'total_items' => $totalItems,
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as &$item) {
+            if ($item['produk_id'] == $request->produk_id) {
+                $item['quantity'] = $request->quantity;
+                break;
+            }
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Jumlah produk berhasil diperbarui!'
+        ]);
     }
 
     public function remove(Request $request)

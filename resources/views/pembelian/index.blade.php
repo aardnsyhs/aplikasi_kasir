@@ -61,14 +61,18 @@
                         </ul>
                     </div>
                 </div>
-                <div>
-                    <a href="/cart">
-                        <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="48" height="48" fill="none" viewBox="0 0 24 24">
+                <div class="relative flex items-center">
+                    <a href="/cart" class="block">
+                        <svg class="h-10 w-10" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="64"
+                            height="64" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                         </svg>
                     </a>
+                    <span id="cart-badge"
+                        class="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                        {{ count(session('cart', [])) }}
+                    </span>
                 </div>
             </div>
             <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
@@ -129,15 +133,20 @@
                 stok: stok
             },
             success: function(response) {
-                if (response) {
-                    alert('Produk berhasil ditambahkan ke keranjang!');
+                if (response && response.message) {
+                    alert(response.message);
+                    const cartBadge = document.getElementById('cart-badge');
+                    if (cartBadge && response.total_items !== undefined) {
+                        cartBadge.textContent = response.total_items;
+                    }
                 } else {
-                    alert('Produk gagal bng ditambahkan ke keranjang!');
+                    alert('Produk gagal ditambahkan ke keranjang!');
                 }
             },
             error: function(xhr, status, error) {
-                alert('Produk gagal ditambahkan ke keranjang!');
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menambahkan produk ke keranjang!');
             }
-        })
+        });
     }
 </script>
