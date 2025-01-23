@@ -7,8 +7,7 @@
 
     <section class="dark:bg-gray-900 p-5">
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
-            <form action="{{ route('checkout.store') }}" method="POST"
-                class="space-y-6 bg-white p-6 rounded-lg shadow-md">
+            <form action="{{ route('checkout.store') }}" method="POST">
                 @csrf
                 <div class="grid lg:grid-cols-2 gap-10">
                     <div class="space-y-6">
@@ -29,8 +28,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Input Produk Secara Tersembunyi -->
                                 <input type="hidden" name="produk[{{ $loop->index }}][produk_id]"
                                     value="{{ $item['produk_id'] }}">
                                 <input type="hidden" name="produk[{{ $loop->index }}][quantity]"
@@ -84,7 +81,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </section>
 </x-app-layout>
