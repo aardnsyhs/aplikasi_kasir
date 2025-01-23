@@ -15,7 +15,6 @@
                 @if (Auth::check())
                     @php
                         $links = [];
-
                         if (Auth::user()->role === 'admin') {
                             $links = [
                                 ['route' => 'dashboard', 'label' => 'Dashboard'],
@@ -31,7 +30,6 @@
                             ];
                         }
                     @endphp
-
                     @foreach ($links as $link)
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route($link['route'])" :active="request()->routeIs($link['route'] . '*')">
@@ -98,22 +96,31 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('produk.index')" :active="request()->routeIs('produk.*')">
-                {{ __('Produk') }}
-            </x-responsive-nav-link>
-        </div>
-        @if (Auth::check() && Auth::user()->role === 'admin')
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user.*')">
-                    {{ __('User') }}
-                </x-responsive-nav-link>
-            </div>
+        @if (Auth::check())
+            @php
+                $links = [];
+                if (Auth::user()->role === 'admin') {
+                    $links = [
+                        ['route' => 'dashboard', 'label' => 'Dashboard'],
+                        ['route' => 'user.index', 'label' => 'User'],
+                        ['route' => 'produk.index', 'label' => 'Produk'],
+                        ['route' => 'stok.index', 'label' => 'Stok'],
+                    ];
+                } elseif (Auth::user()->role === 'petugas') {
+                    $links = [
+                        ['route' => 'produk.index', 'label' => 'Produk'],
+                        ['route' => 'stok.index', 'label' => 'Stok'],
+                        ['route' => 'pembelian.index', 'label' => 'Pembelian'],
+                    ];
+                }
+            @endphp
+            @foreach ($links as $link)
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link :href="route($link['route'])" :active="request()->routeIs($link['route'] . '*')">
+                        {{ __($link['label']) }}
+                    </x-responsive-nav-link>
+                </div>
+            @endforeach
         @endif
 
         <!-- Responsive Settings Options -->
