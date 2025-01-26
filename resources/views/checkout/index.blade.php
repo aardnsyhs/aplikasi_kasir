@@ -16,8 +16,14 @@
                             @foreach ($cart as $item)
                                 <div class="flex items-center justify-between p-4 border-b">
                                     <div class="flex items-center space-x-4">
-                                        <img class="h-24 w-28 rounded-md border object-cover object-center"
-                                            src="https://placehold.co/600x400" alt="product image" />
+                                        @if (!empty($item['gambar']))
+                                            <img class="h-24 w-28 rounded-md border object-cover"
+                                                src="{{ asset('storage/' . $item['gambar']) }}"
+                                                alt="{{ $item['nama_produk'] }}">
+                                        @else
+                                            <img class="h-24 w-28 rounded-md border object-cover"
+                                                src="https://placehold.co/600x400" alt="Gambar Tidak Tersedia">
+                                        @endif
                                         <div class="flex flex-col flex-grow">
                                             <span class="font-semibold text-gray-800">{{ $item['nama_produk'] }}</span>
                                             <span class="text-gray-500">{{ $item['quantity'] }} x

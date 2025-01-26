@@ -25,6 +25,7 @@ class StoreProdukRequest extends FormRequest
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric|min:1',
             'stok' => 'required|integer|min:1',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

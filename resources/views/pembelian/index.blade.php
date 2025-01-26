@@ -80,22 +80,24 @@
                     <div
                         class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div class="h-56 w-full">
-                            <img class="mx-auto h-full dark:hidden" src="https://placehold.co/600x400"
-                                alt="{{ $item->nama_produk }}" />
-                            <img class="mx-auto hidden h-full dark:block" src="https://placehold.co/600x400"
-                                alt="{{ $item->nama_produk }}" />
+                            @if (!empty($item->gambar))
+                                <img class="mx-auto h-full object-cover rounded-md"
+                                    src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_produk }}">
+                            @else
+                                <img class="mx-auto h-full object-cover rounded-md" src="https://placehold.co/400x400"
+                                    alt="Gambar Tidak Tersedia">
+                            @endif
                         </div>
                         <div class="pt-4">
-                            <p class="text-lg font-semibold leading-tight text-gray-900 dark:text-white">
-                                {{ $item->nama_produk }}</p>
-                            <p class="text-md leading-tight text-gray-900 dark:text-white">
-                                Stok: {{ $item->stok }}</p>
-                            <div class="flex items-center justify-between">
-                                <p class="text-md font-extrabold leading-tight text-gray-900 dark:text-white">
-                                    Rp.{{ number_format($item->harga, 2) }}</p>
+                            <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $item->nama_produk }}</p>
+                            <p class="text-md text-gray-900 dark:text-white">Stok: {{ $item->stok }}</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <p class="text-md font-extrabold text-gray-900 dark:text-white">
+                                    Rp.{{ number_format($item->harga, 2, ',', '.') }}
+                                </p>
                                 <button type="button"
-                                    onclick="addToCart({{ $item->id }}, '{{ $item->nama_produk }}', {{ $item->harga }}, {{ $item->stok }})"
-                                    class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-3 py-1 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    onclick="addToCart({{ $item->id }}, '{{ $item->nama_produk }}', {{ $item->harga }}, {{ $item->stok }}, '{{ $item->gambar }}')"
+                                    class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-3 py-1 text-sm font-medium text-white hover:bg-primary-800">
                                     <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -107,7 +109,7 @@
                         </div>
                     </div>
                 @empty
-                    <h3>Produk Kosong</h3>
+                    <h3 class="text-gray-500">Produk Kosong</h3>
                 @endforelse
             </div>
             <div class="w-full text-center">
@@ -121,7 +123,7 @@
 </x-app-layout>
 
 <script>
-    function addToCart(produk_id, nama_produk, harga, stok) {
+    function addToCart(produk_id, nama_produk, harga, stok, gambar) {
         $.ajax({
             url: '{{ route('cart.add') }}',
             type: 'POST',
@@ -130,6 +132,7 @@
                 produk_id: produk_id,
                 nama_produk: nama_produk,
                 harga: harga,
+                gambar: gambar,
                 stok: stok
             },
             success: function(response) {

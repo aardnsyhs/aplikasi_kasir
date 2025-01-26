@@ -32,8 +32,25 @@ class ProdukController extends Controller
      */
     public function store(StoreProdukRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-        Produk::create($validated);
+        $request->validated([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:1',
+            'stok' => 'required|integer|min:1',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $gambarPath = null;
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('produk', 'public');
+        }
+
+        Produk::create([
+            'nama_produk' => $request->nama_produk,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'gambar' => $gambarPath
+        ]);
+
         return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan.');
     }
 

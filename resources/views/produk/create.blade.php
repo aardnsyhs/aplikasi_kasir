@@ -12,7 +12,8 @@
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full">
                         <form method="POST"
-                            action="{{ isset($produk) ? route('produk.update', $produk) : route('produk.store') }}">
+                            action="{{ isset($produk) ? route('produk.update', $produk) : route('produk.store') }}"
+                            enctype="multipart/form-data">
                             @csrf
                             @if (isset($produk))
                                 @method('PUT')
@@ -49,6 +50,18 @@
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Masukkan Stok">
                                     @error('stok')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="w-full">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-4"
+                                        for="gambar">Upload gambar</label>
+                                    <input
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                        aria-describedby="gambar" id="gambar" name="gambar" type="file">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="gambar">SVG,
+                                        PNG, JPG or GIF (MAX. 800x400px).</p>
+                                    @error('gambar')
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
