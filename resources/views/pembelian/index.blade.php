@@ -78,7 +78,7 @@
             <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
                 @forelse ($produk as $item)
                     <div
-                        class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                        class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 product-item">
                         <div class="h-56 w-full">
                             @if (!empty($item->gambar))
                                 <img class="mx-auto h-full object-cover rounded-md"
@@ -112,44 +112,10 @@
                     <h3 class="text-gray-500">Produk Kosong</h3>
                 @endforelse
             </div>
-            <div class="w-full text-center">
-                <button type="button"
-                    class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Show
-                    more</button>
+            <div class="flex justify-center w-full mt-6">
+                {!! $produk->links('vendor.pagination.custom') !!}
             </div>
         </div>
         </div>
     </section>
 </x-app-layout>
-
-<script>
-    function addToCart(produk_id, nama_produk, harga, stok, gambar) {
-        $.ajax({
-            url: '{{ route('cart.add') }}',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                produk_id: produk_id,
-                nama_produk: nama_produk,
-                harga: harga,
-                gambar: gambar,
-                stok: stok
-            },
-            success: function(response) {
-                if (response && response.message) {
-                    alert(response.message);
-                    const cartBadge = document.getElementById('cart-badge');
-                    if (cartBadge && response.total_items !== undefined) {
-                        cartBadge.textContent = response.total_items;
-                    }
-                } else {
-                    alert('Produk gagal ditambahkan ke keranjang!');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat menambahkan produk ke keranjang!');
-            }
-        });
-    }
-</script>

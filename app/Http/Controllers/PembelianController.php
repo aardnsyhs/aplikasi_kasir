@@ -11,7 +11,7 @@ class PembelianController extends Controller
      */
     public function index()
     {
-        $produk = Produk::get();
+        $produk = Produk::paginate(6);
         return view('pembelian.index', compact('produk'));
     }
 }
