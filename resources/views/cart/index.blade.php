@@ -26,24 +26,23 @@
                                     <div class="flex items-center justify-between md:order-3 md:justify-end">
                                         <div class="flex items-center">
                                             <button type="button"
-                                                data-input-counter-decrement="counter-input-{{ $item['produk_id'] }}"
-                                                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 decrement-button">
+                                                class="decrement-button inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                                                data-produk-id="{{ $item['produk_id'] }}">
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 2">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                                 </svg>
                                             </button>
-                                            <input type="text" id="counter-input-{{ $item['produk_id'] }}"
-                                                data-input-counter="{{ $item['produk_id'] }}"
+                                            <input type="text" id="quantity-{{ $item['produk_id'] }}"
                                                 class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                                value="{{ $item['quantity'] ?? 1 }}" required />
+                                                value="{{ $item['quantity'] }}" readonly />
                                             <button type="button"
-                                                data-input-counter-increment="counter-input-{{ $item['produk_id'] }}"
-                                                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 increment-button">
+                                                class="increment-button inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                                                data-produk-id="{{ $item['produk_id'] }}">
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 18">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
@@ -52,18 +51,20 @@
                                         </div>
                                         <div class="text-end md:order-4 md:w-32">
                                             <p class="text-base font-bold text-gray-900 dark:text-white">
-                                                Rp.{{ number_format($item['harga'], 2) }}</p>
+                                                Rp.<span
+                                                    id="harga-{{ $item['produk_id'] }}">{{ number_format($item['harga'] * $item['quantity'], 2, ',', '.') }}</span>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                         <a href="#"
                                             class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{ $item['nama_produk'] }}</a>
                                         <div id="product-{{ $item['produk_id'] }}" class="flex items-center gap-4">
-                                            <button type="button" onclick="removeFromCart({{ $item['produk_id'] }})"
-                                                class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-                                                <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    fill="none" viewBox="0 0 24 24">
+                                            <button type="button"
+                                                class="remove-button inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+                                                data-produk-id="{{ $item['produk_id'] }}">
+                                                <svg class="me-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2"
                                                         d="M6 18 17.94 6M18 18 6.06 6" />
@@ -92,7 +93,7 @@
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
                                     <dd class="text-base font-bold text-gray-900 dark:text-white">
-                                        Rp.{{ number_format($total, 2, ',', '.') }}
+                                        Rp.<span id="total-harga">{{ number_format($total, 2, ',', '.') }}</span>
                                     </dd>
                                 </dl>
                             </div>
@@ -120,69 +121,59 @@
 
 </x-app-layout>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function removeFromCart(produk_id) {
-        $.ajax({
-            url: '{{ route('cart.remove') }}',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                produk_id: produk_id,
-            },
-            success: function(response) {
-                alert(response.message);
-                $('#product-' + produk_id).remove();
-                location.reload();
-            },
-            error: function(xhr, status, error) {
-                alert('Terjadi kesalahan saat menghapus produk!');
-            }
-        });
-    }
+    $(document).ready(function() {
+        $(".increment-button, .decrement-button").click(function(e) {
+            e.preventDefault();
+            let button = $(this);
+            let produkId = button.data("produk-id");
+            let action = button.hasClass("increment-button") ? "increment" : "decrement";
+            let quantityInput = $("#quantity-" + produkId);
+            let hargaElement = $("#harga-" + produkId);
+            let totalHargaElement = $("#total-harga");
 
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.decrement-button')) {
-            const button = e.target.closest('.decrement-button');
-            const inputId = button.getAttribute('data-input-counter-decrement');
-            const input = document.getElementById(inputId);
-            if (input) {
-                let currentValue = parseInt(input.value) || 1;
-                if (currentValue > 1) {
-                    updateCartQuantity(input.getAttribute('data-input-counter'), currentValue - 1, input);
+            $.ajax({
+                url: "{{ route('cart.update') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    produk_id: produkId,
+                    action: action
+                },
+                success: function(response) {
+                    if (response.success) {
+                        quantityInput.val(response.new_quantity);
+                        hargaElement.text(response.new_total);
+                        totalHargaElement.text(response.total_harga);
+                    } else {
+                        alert("Gagal memperbarui jumlah produk!");
+                    }
+                },
+                error: function() {
+                    alert("Terjadi kesalahan saat memperbarui keranjang!");
                 }
-            }
-        }
-
-        if (e.target.closest('.increment-button')) {
-            const button = e.target.closest('.increment-button');
-            const inputId = button.getAttribute('data-input-counter-increment');
-            const input = document.getElementById(inputId);
-            if (input) {
-                let currentValue = parseInt(input.value) || 0;
-                updateCartQuantity(input.getAttribute('data-input-counter'), currentValue + 1, input);
-            }
-        }
+            });
+        });
+        $(".remove-button").click(function(e) {
+            e.preventDefault();
+            let produkId = $(this).data("produk-id");
+            $.ajax({
+                url: "{{ route('cart.remove') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    produk_id: produkId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                        alert("Produk berhasil dihapus dari keranjang!");
+                    } else {
+                        alert("Gagal menghapus produk!");
+                    }
+                }
+            });
+        });
     });
-
-    function updateCartQuantity(produk_id, quantity, input) {
-        $.ajax({
-            url: '{{ route('cart.update') }}',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                produk_id: produk_id,
-                quantity: quantity
-            },
-            success: function(response) {
-                if (response.success) {
-                    input.value = quantity;
-                } else {
-                    alert('Gagal memperbarui jumlah produk!');
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('Terjadi kesalahan saat memperbarui keranjang!');
-            }
-        });
-    }
 </script>

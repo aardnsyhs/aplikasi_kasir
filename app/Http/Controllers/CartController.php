@@ -46,19 +46,33 @@ class CartController extends Controller
     public function update(Request $request)
     {
         $cart = session()->get('cart', []);
+        $newQuantity = 1;
+        $newTotal = 0;
 
         foreach ($cart as &$item) {
             if ($item['produk_id'] == $request->produk_id) {
-                $item['quantity'] = $request->quantity;
+                if ($request->action == 'increment') {
+                    $item['quantity'] += 1;
+                } elseif ($request->action == 'decrement' && $item['quantity'] > 1) {
+                    $item['quantity'] -= 1;
+                }
+                $newQuantity = $item['quantity'];
+                $newTotal = number_format($item['harga'] * $item['quantity'], 2, ',', '.');
                 break;
             }
         }
 
         session()->put('cart', $cart);
 
+        $totalHarga = collect($cart)->sum(function ($item) {
+            return $item['harga'] * $item['quantity'];
+        });
+
         return response()->json([
             'success' => true,
-            'message' => 'Jumlah produk berhasil diperbarui!'
+            'new_quantity' => $newQuantity,
+            'new_total' => $newTotal,
+            'total_harga' => number_format($totalHarga, 2, ',', '.')
         ]);
     }
 
@@ -66,14 +80,12 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        $cart = array_filter($cart, function($item) use ($request) {
+        $cart = array_filter($cart, function ($item) use ($request) {
             return $item['produk_id'] != $request->produk_id;
         });
 
-        $cart = array_values($cart);
+        session()->put('cart', array_values($cart));
 
-        session()->put('cart', $cart);
-
-        return response()->json(['message' => 'Produk berhasil dihapus dari keranjang!']);
+        return response()->json(['success' => true]);
     }
 }
