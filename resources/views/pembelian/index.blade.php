@@ -119,3 +119,37 @@
         </div>
     </section>
 </x-app-layout>
+
+<script>
+    function addToCart(produk_id, nama_produk, harga, stok, gambar) {
+        $.ajax({
+            url: '{{ route('cart.add') }}',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            data: {
+                produk_id: produk_id,
+                nama_produk: nama_produk,
+                harga: harga,
+                gambar: gambar,
+                stok: stok
+            },
+            success: function(response) {
+                if (response && response.message) {
+                    alert(response.message);
+                    const cartBadge = document.getElementById('cart-badge');
+                    if (cartBadge && response.total_items !== undefined) {
+                        cartBadge.textContent = response.total_items;
+                    }
+                } else {
+                    alert('Produk gagal ditambahkan ke keranjang!');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menambahkan produk ke keranjang!');
+            }
+        });
+    }
+</script>
