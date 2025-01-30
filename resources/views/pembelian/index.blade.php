@@ -96,7 +96,7 @@
                                     Rp.{{ number_format($item->harga, 2, ',', '.') }}
                                 </p>
                                 <button type="button"
-                                    onclick="addToCart({{ $item->id }}, '{{ $item->nama_produk }}', {{ $item->harga }}, {{ $item->stok }}, '{{ $item->gambar }}')"
+                                    onclick="addToCart('{{ $item->id }}', '{{ $item->nama_produk }}', {{ $item->harga }}, {{ $item->stok }}, '{{ $item->gambar }}')"
                                     class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-3 py-1 text-sm font-medium text-white hover:bg-primary-800">
                                     <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
