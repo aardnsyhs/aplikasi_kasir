@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProdukRequest;
 use App\Http\Requests\UpdateProdukRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -30,7 +31,7 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProdukRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validated([
             'nama_produk' => 'required|string|max:255',
@@ -73,10 +74,24 @@ class ProdukController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProdukRequest $request, Produk $produk)
+    public function update(Request $request, Produk $produk)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:1',
+            'stok' => 'required|integer|min:1',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
+                Storage::disk('public')->delete($produk->gambar);
+            }
+            $validated['gambar'] = $request->file('gambar')->store('produk', 'public');
+        }
+
         $produk->update($validated);
+
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
