@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DetailPenjualan extends Model
 {
     /** @use HasFactory<\Database\Factories\DetailPenjualanFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'detail_penjualan';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
 
     protected $fillable = [
         'penjualan_id',
