@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
 
+    Route::get('/checkout/success/{id}', [CheckoutController::class, 'show'])->name('checkout.success');
     Route::get('search', [ProdukController::class, 'search'])->name('produk.search');
     Route::resource('produk', ProdukController::class);
     Route::resource('stok', StokController::class);

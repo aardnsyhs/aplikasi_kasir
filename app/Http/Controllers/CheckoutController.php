@@ -62,10 +62,14 @@ class CheckoutController extends Controller
             }
         }
 
-        $detailPenjualan = DetailPenjualan::where('penjualan_id', $penjualan->id)->with('produk')->get();
-
         session()->forget('cart');
 
-        return view('checkout.success', compact('pelanggan', 'penjualan', 'detailPenjualan'));
+        // Redirect ke route checkout.success dengan ID transaksi
+        return redirect()->route('checkout.success', ['id' => $penjualan->id]);
+    }
+
+    public function show($id) {
+        $penjualan = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])->findOrFail($id);
+        return view('checkout.success', compact('penjualan'));
     }
 }

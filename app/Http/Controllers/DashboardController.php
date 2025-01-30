@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $riwayatTransaksi = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
             ->whereBetween('tanggal_penjualan', [$startDate, $endDate])
             ->orderBy('tanggal_penjualan', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('dashboard', [
             'labels' => $dataPenjualan->pluck('tanggal')->toArray(),

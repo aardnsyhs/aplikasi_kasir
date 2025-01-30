@@ -95,7 +95,7 @@
                                         Rp.{{ number_format($transaksi->total_harga, 2) }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="#"
+                                        <a href="{{ route('checkout.success', ['id' => $transaksi->id]) }}"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail
                                             Transaksi</a>
                                     </td>
@@ -110,6 +110,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="px-4 pt-4">
+                    {{ $riwayatTransaksi->links() }}
                 </div>
             </div>
         </div>

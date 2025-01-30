@@ -5,9 +5,9 @@
             <p class="text-sm text-center text-gray-700">Terima kasih telah berbelanja.</p>
             <hr class="my-2 border-dashed border-gray-400">
             <div class="text-sm font-mono">
-                <p><strong>Nama:</strong> {{ $pelanggan->nama_pelanggan }}</p>
-                <p><strong>Alamat:</strong> {{ $pelanggan->alamat }}</p>
-                <p><strong>Telepon:</strong> {{ $pelanggan->nomor_telepon }}</p>
+                <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
+                <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
             </div>
             <hr class="my-2 border-dashed border-gray-400">
             <table class="w-full text-sm font-mono">
@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($detailPenjualan as $detail)
+                    @foreach ($penjualan->detailPenjualan as $detail)
                         <tr>
                             <td class="text-left">{{ $detail->produk->nama_produk }}</td>
                             <td class="text-right">{{ $detail->jumlah_produk }}</td>
