@@ -63,51 +63,6 @@
             <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6">
                 <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Riwayat Transaksi</h2>
                 <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-lg rounded-lg p-4">
-                    {{-- <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead>
-                            <tr class="bg-gray-100 dark:bg-gray-800">
-                                <th
-                                    class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase">
-                                    Tanggal</th>
-                                <th
-                                    class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase">
-                                    Pelanggan</th>
-                                <th
-                                    class="px-4 py-2 text-right text-xs font-medium text-gray-600 dark:text-gray-300 uppercase">
-                                    Total Harga</th>
-                                <th
-                                    class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase">
-                                    Detail Produk</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse ($riwayatTransaksi as $transaksi)
-                                <tr>
-                                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
-                                        {{ $transaksi->tanggal_penjualan }}</td>
-                                    <td class="px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                        {{ $transaksi->pelanggan->nama_pelanggan }}</td>
-                                    <td class="px-4 py-3 text-sm text-right font-bold text-blue-600 dark:text-blue-400">
-                                        Rp.{{ number_format($transaksi->total_harga, 2) }}</td>
-                                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
-                                        <ul class="list-disc pl-4">
-                                            @foreach ($transaksi->detailPenjualan as $detail)
-                                                <li>{{ $detail->produk->nama_produk }} ({{ $detail->jumlah_produk }}x)
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4"
-                                        class="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
-                                        Tidak ada transaksi dalam periode ini.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table> --}}
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -146,6 +101,12 @@
                                     </td>
                                 </tr>
                             @empty
+                                <tr>
+                                    <td colspan="4"
+                                        class="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
+                                        Tidak ada transaksi dalam periode ini.
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
