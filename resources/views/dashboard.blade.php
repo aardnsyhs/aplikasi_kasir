@@ -111,7 +111,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="px-4 pt-4">
+                <div class="px-1 pt-4">
                     {{ $riwayatTransaksi->links() }}
                 </div>
             </div>

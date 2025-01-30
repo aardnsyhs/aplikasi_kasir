@@ -45,10 +45,15 @@
         </div>
     </section>
     <div class="text-center">
-        <button onclick="printStruk()"
-            class="inline-block bg-gray-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800">Cetak</button>
-        <a href="{{ route('pembelian.index') }}"
-            class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Kembali</a>
+        @if (auth()->user()->role === 'petugas')
+            <button onclick="printStruk()"
+                class="inline-block bg-gray-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800">Cetak</button>
+            <a href="{{ route('pembelian.index') }}"
+                class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Kembali</a>
+        @else
+            <a href="{{ route('dashboard') }}"
+                class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Kembali</a>
+        @endif
     </div>
 </x-app-layout>
 
