@@ -64,7 +64,6 @@ class CheckoutController extends Controller
 
         session()->forget('cart');
 
-        // Redirect ke route checkout.success dengan ID transaksi
         return redirect()->route('checkout.success', ['id' => $penjualan->id]);
     }
 
