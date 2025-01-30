@@ -43,6 +43,16 @@
                         Filter
                     </button>
                 </form>
+                <div class="flex justify-end space-x-2 mt-4">
+                    <a href="{{ route('export.excel') }}"
+                        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                        Export Excel
+                    </a>
+                    <a href="{{ route('export.pdf') }}"
+                        class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                        Export PDF
+                    </a>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div class="p-6 bg-white dark:bg-gray-900 shadow-md rounded-lg text-center">
                         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Total Penjualan</h3>

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanPenjualanExport;
 use App\Models\Pelanggan;
 use App\Models\Penjualan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -49,5 +52,18 @@ class DashboardController extends Controller
             'endDate' => $endDateRaw ?? now()->format('m/d/Y'),
             'riwayatTransaksi' => $riwayatTransaksi,
         ]);
+    }
+
+    public function exportExcel() {
+        return Excel::download(new LaporanPenjualanExport, 'laporan_penjualan.xlsx');
+    }
+
+    public function exportPDF() {
+        $data = Penjualan::with('pelanggan')
+            ->orderBy('tanggal_penjualan', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('exports.laporan_pdf', compact('data'));
+        return $pdf->download('laporan_penjualan.pdf');
     }
 }
