@@ -33,7 +33,7 @@ class ProdukController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validated([
+        $request->validate([
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric|min:1',
             'stok' => 'required|integer|min:1',
