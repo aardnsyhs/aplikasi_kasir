@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6">
-                <form method="GET" action="{{ route('dashboard') }}" class="mt-4 flex flex-col md:flex-row gap-4">
+                <form method="GET" action="{{ route('dashboard') }}" class="mb-6 flex flex-wrap gap-4 items-center">
                     <div id="date-range-picker" date-rangepicker class="flex items-center">
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -39,29 +39,32 @@
                         </div>
                     </div>
                     <button type="submit"
-                        class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition shadow-md">
                         Filter
                     </button>
                 </form>
-                <div class="flex justify-end space-x-2 mt-4">
+                <div class="flex justify-end space-x-2">
                     <a href="{{ route('export.excel') }}"
-                        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
                         Export Excel
                     </a>
                     <a href="{{ route('export.pdf') }}"
-                        class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                        class="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
                         Export PDF
                     </a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div class="p-6 bg-white dark:bg-gray-900 shadow-md rounded-lg text-center">
+                    <div class="p-6 bg-gray-50 dark:bg-gray-900 shadow-md rounded-lg text-center">
                         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Total Penjualan</h3>
                         <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                            Rp.{{ number_format($totalPenjualan, 2) }}</p>
+                            Rp.{{ number_format($totalPenjualan, 2) }}
+                        </p>
                     </div>
-                    <div class="p-6 bg-white dark:bg-gray-900 shadow-md rounded-lg text-center">
+                    <div class="p-6 bg-gray-50 dark:bg-gray-900 shadow-md rounded-lg text-center">
                         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Total Pelanggan</h3>
-                        <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{{ $totalPelanggan }}</p>
+                        <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
+                            {{ $totalPelanggan }}
+                        </p>
                     </div>
                 </div>
                 <div class="mt-6 p-6 bg-white dark:bg-gray-900 shadow-md rounded-lg">
