@@ -18,28 +18,29 @@ class DashboardController extends Controller
         $startDateRaw = $request->input('start_date');
         $endDateRaw = $request->input('end_date');
 
-        try {
-            $startDate = $startDateRaw
-                ? Carbon::createFromFormat('m/d/Y', $startDateRaw)->format('Y-m-d')
-                : now()->subMonth()->format('Y-m-d');
-            $endDate = $endDateRaw
-                ? Carbon::createFromFormat('m/d/Y', $endDateRaw)->format('Y-m-d')
-                : now()->format('Y-m-d');
-        } catch (\Exception $e) {
-            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+        $startDate = $startDateRaw ? Carbon::createFromFormat('m/d/Y', $startDateRaw)->format('Y-m-d') : null;
+        $endDate = $endDateRaw ? Carbon::createFromFormat('m/d/Y', $endDateRaw)->format('Y-m-d') : null;
+
+        $query = Penjualan::select(DB::raw('DATE(tanggal_penjualan) as tanggal'), DB::raw('SUM(total_harga) as total'));
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal_penjualan', [$startDate, $endDate]);
         }
 
-        $dataPenjualan = Penjualan::select(DB::raw('DATE(tanggal_penjualan) as tanggal'), DB::raw('SUM(total_harga) as total'))
-            ->whereBetween('tanggal_penjualan', [$startDate, $endDate])
-            ->groupBy('tanggal')
+        $dataPenjualan = $query->groupBy('tanggal')
             ->orderBy('tanggal', 'asc')
             ->get();
 
-        $totalPenjualan = Penjualan::whereBetween('tanggal_penjualan', [$startDate, $endDate])->sum('total_harga');
+        $totalPenjualan = Penjualan::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            return $query->whereBetween('tanggal_penjualan', [$startDate, $endDate]);
+        })->sum('total_harga');
+
         $totalPelanggan = Pelanggan::count();
 
         $riwayatTransaksi = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
-            ->whereBetween('tanggal_penjualan', [$startDate, $endDate])
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('tanggal_penjualan', [$startDate, $endDate]);
+            })
             ->orderBy('tanggal_penjualan', 'desc')
             ->paginate(10);
 
@@ -48,17 +49,19 @@ class DashboardController extends Controller
             'values' => $dataPenjualan->pluck('total')->toArray(),
             'totalPenjualan' => $totalPenjualan,
             'totalPelanggan' => $totalPelanggan,
-            'startDate' => $startDateRaw ?? now()->subMonth()->format('m/d/Y'),
-            'endDate' => $endDateRaw ?? now()->format('m/d/Y'),
+            'startDate' => $startDateRaw,
+            'endDate' => $endDateRaw,
             'riwayatTransaksi' => $riwayatTransaksi,
         ]);
     }
 
-    public function exportExcel() {
+    public function exportExcel()
+    {
         return Excel::download(new LaporanPenjualanExport, 'laporan_penjualan.xlsx');
     }
 
-    public function exportPDF() {
+    public function exportPDF()
+    {
         $data = Penjualan::with('pelanggan')
             ->orderBy('tanggal_penjualan', 'desc')
             ->get();

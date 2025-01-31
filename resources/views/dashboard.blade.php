@@ -19,7 +19,7 @@
                                 </svg>
                             </div>
                             <input id="datepicker-range-start" name="start_date" type="text"
-                                value="{{ request('start_date', $startDate) }}"
+                                value="{{ request('start_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Pilih tanggal">
                         </div>
@@ -33,7 +33,7 @@
                                 </svg>
                             </div>
                             <input id="datepicker-range-end" name="end_date" type="text"
-                                value="{{ request('end_date', $endDate) }}"
+                                value="{{ request('end_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Pilih tanggal">
                         </div>
@@ -112,8 +112,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4"
-                                        class="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
+                                    <td colspan="4" class="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
                                         Tidak ada transaksi dalam periode ini.
                                     </td>
                                 </tr>
@@ -131,7 +130,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let ctx = document.getElementById('chartPenjualan').getContext('2d');
         new Chart(ctx, {
             type: 'line',
