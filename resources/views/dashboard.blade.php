@@ -131,7 +131,6 @@
     </div>
 </x-app-layout>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let ctx = document.getElementById('chartPenjualan').getContext('2d');

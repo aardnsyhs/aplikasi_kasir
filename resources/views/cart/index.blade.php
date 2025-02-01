@@ -16,11 +16,10 @@
                                 <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                     @if (!empty($item['gambar']))
                                         <img class="h-20 w-20 object-cover rounded-md"
-                                            src="{{ asset('storage/' . $item['gambar']) }}"
-                                            alt="{{ $item['nama_produk'] }}">
+                                            src="{{ asset('storage/' . $item['gambar']) }}" alt="{{ $item['nama_produk'] }}">
                                     @else
-                                        <img class="h-20 w-20 object-cover rounded-md"
-                                            src="https://placehold.co/200x200" alt="Gambar Tidak Tersedia">
+                                        <img class="h-20 w-20 object-cover rounded-md" src="https://placehold.co/200x200"
+                                            alt="Gambar Tidak Tersedia">
                                     @endif
                                     <label for="counter-input" class="sr-only">Choose quantity:</label>
                                     <div class="flex items-center justify-between md:order-3 md:justify-end">
@@ -29,8 +28,7 @@
                                                 class="decrement-button inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                                                 data-produk-id="{{ $item['produk_id'] }}">
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 18 2">
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                                 </svg>
@@ -42,8 +40,7 @@
                                                 class="increment-button inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                                                 data-produk-id="{{ $item['produk_id'] }}">
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 18 18">
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
                                                 </svg>
@@ -63,8 +60,8 @@
                                             <button type="button"
                                                 class="remove-button inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
                                                 data-produk-id="{{ $item['produk_id'] }}">
-                                                <svg class="me-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <svg class="me-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" fill="none" viewBox="0 0 24 24">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2"
                                                         d="M6 18 17.94 6M18 18 6.06 6" />
@@ -79,52 +76,51 @@
                     </div>
                 </div>
                 @if (session()->has('cart') && count(session('cart')) > 0)
-                    @php
-                        $total = collect(session('cart', []))->sum(function ($item) {
-                            return $item['harga'] * $item['quantity'];
-                        });
-                    @endphp
-                    <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-                        <div
-                            class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                            <p class="text-xl font-semibold text-gray-900 dark:text-white">Ringkasan Pesanan</p>
-                            <div class="space-y-4">
-                                <dl
-                                    class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                    <dd class="text-base font-bold text-gray-900 dark:text-white">
-                                        Rp.<span id="total-harga">{{ number_format($total, 2, ',', '.') }}</span>
-                                    </dd>
-                                </dl>
-                            </div>
-                            <a href="/checkout"
-                                class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Lanjutkan
-                                ke Pembayaran</a>
-                            <div class="flex items-center justify-center gap-2">
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
-                                <a href="/pembelian" title=""
-                                    class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
-                                    Lanjutkan Belanja
-                                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                                @php
+                                    $total = collect(session('cart', []))->sum(function ($item) {
+                                        return $item['harga'] * $item['quantity'];
+                                    });
+                                @endphp
+                                <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                                    <div
+                                        class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                                        <p class="text-xl font-semibold text-gray-900 dark:text-white">Ringkasan Pesanan</p>
+                                        <div class="space-y-4">
+                                            <dl
+                                                class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                                                <dd class="text-base font-bold text-gray-900 dark:text-white">
+                                                    Rp.<span id="total-harga">{{ number_format($total, 2, ',', '.') }}</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <a href="{{ route('checkout.index') }}"
+                                            class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Lanjutkan
+                                            ke Pembayaran</a>
+                                        <div class="flex items-center justify-center gap-2">
+                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
+                                            <a href="/pembelian" title=""
+                                                class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
+                                                Lanjutkan Belanja
+                                                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                 @endif
             </div>
         </div>
     </section>
-
 </x-app-layout>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        $(".increment-button, .decrement-button").click(function(e) {
+    $(document).ready(function () {
+        $(".increment-button, .decrement-button").click(function (e) {
             e.preventDefault();
             let button = $(this);
             let produkId = button.data("produk-id");
@@ -141,7 +137,7 @@
                     produk_id: produkId,
                     action: action
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         quantityInput.val(response.new_quantity);
                         hargaElement.text(response.new_total);
@@ -150,12 +146,13 @@
                         alert("Gagal memperbarui jumlah produk!");
                     }
                 },
-                error: function() {
+                error: function () {
                     alert("Terjadi kesalahan saat memperbarui keranjang!");
                 }
             });
         });
-        $(".remove-button").click(function(e) {
+
+        $(".remove-button").click(function (e) {
             e.preventDefault();
             let produkId = $(this).data("produk-id");
             $.ajax({
@@ -165,7 +162,7 @@
                     _token: "{{ csrf_token() }}",
                     produk_id: produkId
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         location.reload();
                         alert("Produk berhasil dihapus dari keranjang!");
