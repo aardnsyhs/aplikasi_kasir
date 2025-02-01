@@ -1,3 +1,0 @@
-seed balatro: - H1RF6746S
-	      - F6JRP28T
-	      - ZG722HG8
