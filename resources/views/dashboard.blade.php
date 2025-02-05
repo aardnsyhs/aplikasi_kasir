@@ -44,11 +44,11 @@
                     </button>
                 </form>
                 <div class="flex justify-end space-x-2">
-                    <a href="{{ route('export.excel') }}"
+                    <a href="{{ route('export.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
                         class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
                         Export Excel
                     </a>
-                    <a href="{{ route('export.pdf') }}"
+                    <a href="{{ route('export.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
                         class="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
                         Export PDF
                     </a>

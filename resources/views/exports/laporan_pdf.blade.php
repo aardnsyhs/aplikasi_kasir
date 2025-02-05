@@ -36,6 +36,11 @@
 
 <body>
     <h2>Laporan Penjualan</h2>
+    @if ($startDate && $endDate)
+        <p>Periode: {{ $startDate }} sampai {{ $endDate }}</p>
+    @else
+        <p>Semua Data</p>
+    @endif
     <table>
         <thead>
             <tr>
@@ -65,7 +70,8 @@
                                 <tr>
                                     @if ($index === 0)
                                         <td rowspan="{{ $detailCount }}">
-                                            {{ $transaksi->pelanggan ? $transaksi->pelanggan->nama_pelanggan : 'Tidak Diketahui' }}</td>
+                                            {{ $transaksi->pelanggan ? $transaksi->pelanggan->nama_pelanggan : 'Tidak Diketahui' }}
+                                        </td>
                                         <td rowspan="{{ $detailCount }}">{{ $transaksi->tanggal_penjualan }}</td>
                                     @endif
                                     <td>{{ $detail->produk->nama_produk ?? 'Produk Tidak Diketahui' }}</td>

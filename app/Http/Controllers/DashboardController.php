@@ -55,18 +55,33 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new LaporanPenjualanExport, 'laporan_penjualan.xlsx');
+        $startDateRaw = $request->input('start_date');
+        $endDateRaw = $request->input('end_date');
+
+        $startDate = $startDateRaw ? Carbon::createFromFormat('m/d/Y', $startDateRaw)->format('Y-m-d') : null;
+        $endDate = $endDateRaw ? Carbon::createFromFormat('m/d/Y', $endDateRaw)->format('Y-m-d') : null;
+
+        return Excel::download(new LaporanPenjualanExport($startDate, $endDate), 'laporan_penjualan.xlsx');
     }
 
-    public function exportPDF()
+    public function exportPDF(Request $request)
     {
+        $startDateRaw = $request->input('start_date');
+        $endDateRaw = $request->input('end_date');
+
+        $startDate = $startDateRaw ? Carbon::createFromFormat('m/d/Y', $startDateRaw)->format('Y-m-d') : null;
+        $endDate = $endDateRaw ? Carbon::createFromFormat('m/d/Y', $endDateRaw)->format('Y-m-d') : null;
+
         $data = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
+            ->when($startDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('tanggal_penjualan', [$startDate, $endDate]);
+            })
             ->orderBy('tanggal_penjualan', 'desc')
             ->get();
 
-        $pdf = Pdf::loadView('exports.laporan_pdf', compact('data'));
+        $pdf = Pdf::loadView('exports.laporan_pdf', compact('data', 'startDate', 'endDate'));
         return $pdf->download('laporan_penjualan.pdf');
     }
 }

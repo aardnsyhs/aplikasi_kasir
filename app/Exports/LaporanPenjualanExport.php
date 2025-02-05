@@ -13,9 +13,21 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
+    protected $startDate;
+    protected $endDate;
+
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
     public function collection()
     {
         return Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
+            ->when($this->startDate && $this->endDate, function ($query) {
+                return $query->whereBetween('tanggal_penjualan', [$this->startDate, $this->endDate]);
+            })
             ->orderBy('tanggal_penjualan', 'desc')
             ->orderBy('pelanggan_id', 'desc')
             ->get();
