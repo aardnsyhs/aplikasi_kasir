@@ -62,7 +62,7 @@ class DashboardController extends Controller
 
     public function exportPDF()
     {
-        $data = Penjualan::with('pelanggan')
+        $data = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
             ->orderBy('tanggal_penjualan', 'desc')
             ->get();
 

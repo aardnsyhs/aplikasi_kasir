@@ -16,8 +16,8 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
     public function collection()
     {
         return Penjualan::with(['pelanggan', 'detailPenjualan.produk'])
-            ->orderBy('tanggal_penjualan')
-            ->orderBy('pelanggan_id')
+            ->orderBy('tanggal_penjualan', 'desc')
+            ->orderBy('pelanggan_id', 'desc')
             ->get();
     }
 
