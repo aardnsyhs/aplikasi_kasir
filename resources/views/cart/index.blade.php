@@ -117,7 +117,6 @@
     </section>
 </x-app-layout>
 
-<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         $(".increment-button, .decrement-button").click(function (e) {
