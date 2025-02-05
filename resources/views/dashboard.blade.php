@@ -8,50 +8,54 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6">
-                <form method="GET" action="{{ route('dashboard') }}" class="mb-6 flex flex-wrap gap-4 items-center">
-                    <div id="date-range-picker" date-rangepicker class="flex items-center">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                </svg>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6 mb-6">
+                    <form method="GET" action="{{ route('dashboard') }}"
+                        class="flex flex-col sm:flex-row flex-wrap gap-4 items-center w-full">
+                        <div id="date-range-picker" date-rangepicker
+                            class="flex flex-col sm:flex-row items-center w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input id="datepicker-range-start" name="start_date" type="text"
+                                    value="{{ request('start_date') }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-auto ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Pilih tanggal">
                             </div>
-                            <input id="datepicker-range-start" name="start_date" type="text"
-                                value="{{ request('start_date') }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Pilih tanggal">
-                        </div>
-                        <span class="mx-4 text-gray-500">sampai</span>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                </svg>
+                            <span class="mx-2 sm:mx-4 text-gray-500">sampai</span>
+                            <div class="relative w-full sm:w-auto">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input id="datepicker-range-end" name="end_date" type="text"
+                                    value="{{ request('end_date') }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-auto ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Pilih tanggal">
                             </div>
-                            <input id="datepicker-range-end" name="end_date" type="text"
-                                value="{{ request('end_date') }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Pilih tanggal">
                         </div>
+                        <button type="submit"
+                            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 w-full sm:w-auto">
+                            Filter
+                        </button>
+                    </form>
+                    <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                        <a href="{{ route('export.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
+                            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md text-center w-full sm:w-auto">
+                            Export Excel
+                        </a>
+                        <a href="{{ route('export.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
+                            class="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md text-center w-full sm:w-auto">
+                            Export PDF
+                        </a>
                     </div>
-                    <button type="submit"
-                        class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                        Filter
-                    </button>
-                </form>
-                <div class="flex justify-end space-x-2">
-                    <a href="{{ route('export.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
-                        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
-                        Export Excel
-                    </a>
-                    <a href="{{ route('export.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
-                        class="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg transition shadow-md">
-                        Export PDF
-                    </a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div class="p-6 bg-gray-50 dark:bg-gray-900 shadow-md rounded-lg text-center">
