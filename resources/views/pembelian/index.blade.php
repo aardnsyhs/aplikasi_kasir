@@ -141,8 +141,12 @@
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat menambahkan produk ke keranjang!');
+                if (xhr.status === 400) {
+                    alert(xhr.responseJSON.message)
+                } else {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menambahkan produk ke keranjang!');
+                }
             }
         });
     }

@@ -2,20 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('cart.index');
     }
 
-    public function add(Request $request) {
+    public function add(Request $request)
+    {
         $cart = session()->get('cart', []);
+
+        $produk = Produk::find($request->produk_id);
+
+        if (!$produk) {
+            return response()->json([
+                'message' => 'Produk tidak ditemukan!'
+            ], 404);
+        }
+
+        if ($produk->stok < 1) {
+            return response()->json([
+                'message' => 'Stok habis!'
+            ], 400);
+        }
 
         $found = false;
         foreach ($cart as &$item) {
             if ($item['produk_id'] == $request->produk_id) {
+                if ($item['quantity'] + 1 > $produk->stok) {
+                    return response()->json([
+                        'message' => 'Jumlah melebihi stok yang tersedia!'
+                    ], 400);
+                }
                 $item['quantity'] += 1;
                 $found = true;
                 break;
@@ -27,7 +49,7 @@ class CartController extends Controller
                 'produk_id' => $request->produk_id,
                 'nama_produk' => $request->nama_produk,
                 'harga' => $request->harga,
-                'stok' => $request->stok,
+                'stok' => $produk->stok,
                 'gambar' => $request->gambar,
                 'quantity' => 1,
             ];
@@ -51,7 +73,22 @@ class CartController extends Controller
 
         foreach ($cart as &$item) {
             if ($item['produk_id'] == $request->produk_id) {
+                $produk = Produk::find($request->produk_id);
+
+                if (!$produk) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Produk tidak ditemukan!'
+                    ], 404);
+                }
+
                 if ($request->action == 'increment') {
+                    if ($item['quantity'] + 1 > $produk->stok) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Jumlah melebihi stok yang tersedia!'
+                        ], 400);
+                    }
                     $item['quantity'] += 1;
                 } elseif ($request->action == 'decrement' && $item['quantity'] > 1) {
                     $item['quantity'] -= 1;
