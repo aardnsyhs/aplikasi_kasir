@@ -121,11 +121,19 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
         $currentRow = $startRow;
 
         while ($currentRow <= $highestRow) {
-            $currentValue = $sheet->getCell('G' . $currentRow)->getValue();
+            $currentPelanggan = $sheet->getCell('A' . $currentRow)->getValue();
+            $currentTanggal = $sheet->getCell('B' . $currentRow)->getValue();
             $nextRow = $currentRow + 1;
 
-            while ($nextRow <= $highestRow && $sheet->getCell('G' . $nextRow)->getValue() === $currentValue) {
-                $nextRow++;
+            while ($nextRow <= $highestRow) {
+                $nextPelanggan = $sheet->getCell('A' . $nextRow)->getValue();
+                $nextTanggal = $sheet->getCell('B' . $nextRow)->getValue();
+
+                if ($nextPelanggan === $currentPelanggan && $nextTanggal === $currentTanggal) {
+                    $nextRow++;
+                } else {
+                    break;
+                }
             }
 
             if ($nextRow - $currentRow > 1) {
