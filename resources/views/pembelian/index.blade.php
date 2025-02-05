@@ -84,7 +84,10 @@
                         </div>
                         <div class="pt-4">
                             <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $item->nama_produk }}</p>
-                            <p class="text-md text-gray-900 dark:text-white">Stok: {{ $item->stok }}</p>
+                            <p
+                                class="text-md {{ $item->stok > 0 ? 'text-gray-900 dark:text-white' : 'text-red-500 dark:text-red-500' }}">
+                                {{ $item->stok > 0 ? "Stok: $item->stok" : 'Stok habis' }}
+                            </p>
                             <div class="flex items-center justify-between mt-2">
                                 <p class="text-md font-extrabold text-gray-900 dark:text-white">
                                     Rp.{{ number_format($item->harga, 2, ',', '.') }}
