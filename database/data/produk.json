@@ -1,0 +1,57 @@
+[
+    {
+        "nama_produk": "Teh Pucuk Harum",
+        "harga": 3000,
+        "stok": 50
+    },
+    {
+        "nama_produk": "Tango",
+        "harga": 5000,
+        "stok": 30
+    },
+    {
+        "nama_produk": "Nutriboost",
+        "harga": 7000,
+        "stok": 20
+    },
+    {
+        "nama_produk": "Nabati",
+        "harga": 4000,
+        "stok": 40
+    },
+    {
+        "nama_produk": "Indomie",
+        "harga": 2900,
+        "stok": 100
+    },
+    {
+        "nama_produk": "Good Day",
+        "harga": 3000,
+        "stok": 60
+    },
+    {
+        "nama_produk": "Gery Malkist",
+        "harga": 6000,
+        "stok": 25
+    },
+    {
+        "nama_produk": "Fruit Tea",
+        "harga": 3500,
+        "stok": 45
+    },
+    {
+        "nama_produk": "Chitato",
+        "harga": 9900,
+        "stok": 35
+    },
+    {
+        "nama_produk": "Beng Beng",
+        "harga": 2500,
+        "stok": 80
+    },
+    {
+        "nama_produk": "Aqua",
+        "harga": 4000,
+        "stok": 70
+    }
+]

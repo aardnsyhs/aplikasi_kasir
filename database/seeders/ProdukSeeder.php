@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ProdukSeeder extends Seeder
 {
@@ -13,17 +15,18 @@ class ProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [];
-        for ($i = 1; $i <= 100; $i++) {
-            $data[] = [
-                'nama_produk' => 'Produk ' . $i,
-                'harga' => rand(1000, 1000000),
-                'stok' => rand(1, 1000),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
+        $json = File::get(database_path('data/produk.json'));
+        $produk = json_decode($json, true);
 
-        DB::table('produk')->insert($data);
+        foreach ($produk as $item) {
+            DB::table('produk')->insert([
+                'id' => Str::uuid(),
+                'nama_produk' => $item['nama_produk'],
+                'harga' => $item['harga'],
+                'stok' => $item['stok'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
     }
 }
