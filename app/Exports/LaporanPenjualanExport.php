@@ -67,6 +67,9 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
 
+                $this->mergeTotalTransactionCells($sheet);
+                $this->mergeCustomerAndDateCells($sheet);
+
                 $highestRow = $sheet->getHighestRow();
                 $highestColumn = $sheet->getHighestColumn();
                 $cellRange = "A1:{$highestColumn}{$highestRow}";
@@ -108,10 +111,39 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
                 foreach (range('A', 'G') as $col) {
                     $sheet->getColumnDimension($col)->setAutoSize(true);
                 }
-
-                $this->mergeTotalTransactionCells($sheet);
             }
         ];
+    }
+
+    private function mergeCustomerAndDateCells($sheet)
+    {
+        $highestRow = $sheet->getHighestRow();
+        $startRow = 2;
+        $currentRow = $startRow;
+
+        while ($currentRow <= $highestRow) {
+            $currentPelanggan = $sheet->getCell('A' . $currentRow)->getValue();
+            $currentTanggal = $sheet->getCell('B' . $currentRow)->getValue();
+            $nextRow = $currentRow + 1;
+
+            while ($nextRow <= $highestRow) {
+                $nextPelanggan = $sheet->getCell('A' . $nextRow)->getValue();
+                $nextTanggal = $sheet->getCell('B' . $nextRow)->getValue();
+
+                if ($nextPelanggan === $currentPelanggan && $nextTanggal === $currentTanggal) {
+                    $nextRow++;
+                } else {
+                    break;
+                }
+            }
+
+            if ($nextRow - $currentRow > 1) {
+                $sheet->mergeCells("A{$currentRow}:A" . ($nextRow - 1));
+                $sheet->mergeCells("B{$currentRow}:B" . ($nextRow - 1));
+            }
+
+            $currentRow = $nextRow;
+        }
     }
 
     private function mergeTotalTransactionCells($sheet)
