@@ -1,3 +1,16 @@
+### Setup Tambahan buat Export ke Excel & PDF
+
+Biar Laravel bisa jalan dengan lancar, pastikan beberapa ekstensi PHP udah aktif. Buka file berikut:
+```
+xampp/php/php.ini
+```
+
+Terus cari dan hapus tanda `;` di depan baris berikut:
+```ini
+extension=gd
+extension=zip
+```
+Setelah itu, restart Apache lewat XAMPP Control Panel.
 
 ### Langkah-langkah untuk Login sebagai Admin
 
@@ -45,17 +58,3 @@ npm run dev
 ```
 
 Sekarang, buka aplikasi di browser lewat `http://127.0.0.1:8000`
-
-### Setup Tambahan buat Export ke Excel & PDF
-
-Biar Laravel bisa jalan dengan lancar, pastikan beberapa ekstensi PHP udah aktif. Buka file berikut:
-```
-xampp/php/php.ini
-```
-
-Terus cari dan hapus tanda `;` di depan baris berikut:
-```ini
-extension=gd
-extension=zip
-```
-Setelah itu, restart Apache lewat XAMPP Control Panel.
