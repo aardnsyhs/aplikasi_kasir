@@ -29,7 +29,6 @@
 
         .total-transaksi {
             font-weight: bold;
-            background-color: #e0e0e0;
         }
     </style>
 </head>
