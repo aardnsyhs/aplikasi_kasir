@@ -38,8 +38,7 @@
                                     value="{{ $item['produk_id'] }}">
                                 <input type="hidden" name="produk[{{ $loop->index }}][quantity]"
                                     value="{{ $item['quantity'] }}">
-                                <input type="hidden" name="produk[{{ $loop->index }}][harga]"
-                                    value="{{ $item['harga'] }}">
+                                <input type="hidden" name="produk[{{ $loop->index }}][harga]" value="{{ $item['harga'] }}">
                             @endforeach
                         </div>
                     </div>
@@ -52,14 +51,19 @@
                                     Pelanggan</label>
                                 <input type="text" id="nama_pelanggan" name="nama_pelanggan"
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Masukkan nama Anda" required />
+                                    placeholder="Masukkan nama Anda" />
+                                @error('nama_pelanggan')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
                                 <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
                                 <textarea name="alamat" id="alamat" cols="30" rows="3"
-                                    class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    required></textarea>
+                                    class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                @error('alamat')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
@@ -67,7 +71,10 @@
                                     Telepon</label>
                                 <input type="number" id="nomor_telepon" name="nomor_telepon"
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="08xxxxxxxxxx" required />
+                                    placeholder="08xxxxxxxxxx" />
+                                @error('nomor_telepon')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div class="flex justify-between mt-4">

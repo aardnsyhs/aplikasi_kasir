@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
@@ -26,7 +27,7 @@ class CheckoutController extends Controller
         $validated = $request->validate([
             'nama_pelanggan' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'nomor_telepon' => 'required|string|max:15',
+            'nomor_telepon' => 'required|string|regex:/^(08[1-9][0-9]{6,10})$/',
             'produk' => 'required|array',
             'produk.*.produk_id' => 'required|exists:produk,id',
             'produk.*.quantity' => 'required|integer|min:1',
@@ -67,7 +68,8 @@ class CheckoutController extends Controller
         return redirect()->route('checkout.success', ['id' => $penjualan->id]);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $penjualan = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])->findOrFail($id);
         return view('checkout.success', compact('penjualan'));
     }

@@ -1,6 +1,9 @@
 <x-app-layout>
     <section class="dark:bg-gray-900 p-3 sm:p-5 flex justify-center">
         <div id="struk-belanja" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg border border-gray-300">
+            <h1 class="text-xl text-center font-bold">Toko ABC</h1>
+            <p class="text-sm text-center text-gray-700">Jl. Contoh No. 123, Kota Contoh</p>
+            <p class="text-sm text-center text-gray-700">Telepon: (021) 123-4567</p>
             <h2 class="text-lg font-semibold text-center text-green-600">Pembayaran Berhasil!</h2>
             <p class="text-sm text-center text-gray-700">Terima kasih telah berbelanja.</p>
             <hr class="my-2 border-dashed border-gray-400">
@@ -61,7 +64,7 @@
     function printStruk() {
         let struk = document.getElementById('struk-belanja').innerHTML;
         let originalContent = document.body.innerHTML;
-        document.body.innerHTML = struk;
+        document.body.innerHTML = '<div class="text-center"><h1>Nama Toko</h1><p>Jl. Contoh No. 123, Kota, Provinsi</p><p>Telepon: 0812-3456-7890</p></div>' + struk;
         window.print();
         document.body.innerHTML = originalContent;
         location.reload();
