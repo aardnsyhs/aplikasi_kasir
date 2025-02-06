@@ -1,3 +1,12 @@
+<style>
+    @page {
+        size: auto;
+        margin-top: 0mm;
+        margin-bottom: 0mm;
+        width: auto;
+        height: auto;
+    }
+</style>
 <x-app-layout>
     <section class="dark:bg-gray-900 p-3 sm:p-5 flex justify-center">
         <div id="struk-belanja" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg border border-gray-300">
@@ -63,9 +72,12 @@
 <script>
     function printStruk() {
         let struk = document.getElementById('struk-belanja').innerHTML;
+        let judul = document.title;
         let originalContent = document.body.innerHTML;
-        document.body.innerHTML = '<div class="text-center"><h1>Nama Toko</h1><p>Jl. Contoh No. 123, Kota, Provinsi</p><p>Telepon: 0812-3456-7890</p></div>' + struk;
+        document.title = "Struk Belanja";
+        document.body.innerHTML = struk;
         window.print();
+        document.title = judul;
         document.body.innerHTML = originalContent;
         location.reload();
     }
