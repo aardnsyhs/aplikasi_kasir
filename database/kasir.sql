@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Jan 2025 pada 05.27
+-- Waktu pembuatan: 12 Feb 2025 pada 08.41
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -52,9 +52,9 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `detail_penjualan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `penjualan_id` bigint(20) UNSIGNED NOT NULL,
-  `produk_id` bigint(20) UNSIGNED NOT NULL,
+  `id` char(36) NOT NULL,
+  `penjualan_id` char(36) NOT NULL,
+  `produk_id` char(36) NOT NULL,
   `jumlah_produk` int(11) NOT NULL,
   `subtotal` decimal(10,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -66,23 +66,33 @@ CREATE TABLE `detail_penjualan` (
 --
 
 INSERT INTO `detail_penjualan` (`id`, `penjualan_id`, `produk_id`, `jumlah_produk`, `subtotal`, `created_at`, `updated_at`) VALUES
-(16, 7, 1, 1, 2500000.00, '2025-01-29 18:23:22', '2025-01-29 18:23:22'),
-(17, 7, 2, 4, 2000000.00, '2025-01-29 18:23:22', '2025-01-29 18:23:22'),
-(18, 8, 3, 4, 10000.00, '2025-01-29 18:23:48', '2025-01-29 18:23:48'),
-(19, 8, 4, 2, 4000.00, '2025-01-29 18:23:48', '2025-01-29 18:23:48'),
-(20, 8, 6, 2, 5000.00, '2025-01-29 18:23:48', '2025-01-29 18:23:48'),
-(21, 9, 7, 1, 70000.00, '2025-01-29 18:27:48', '2025-01-29 18:27:48'),
-(22, 9, 8, 1, 150000.00, '2025-01-29 18:27:48', '2025-01-29 18:27:48'),
-(23, 10, 11, 5, 17500.00, '2025-01-29 18:29:33', '2025-01-29 18:29:33'),
-(24, 10, 5, 2, 6000.00, '2025-01-29 18:29:33', '2025-01-29 18:29:33'),
-(25, 11, 7, 2, 140000.00, '2025-01-29 18:57:25', '2025-01-29 18:57:25'),
-(27, 13, 5, 5, 15000.00, '2025-01-29 18:59:58', '2025-01-29 18:59:58'),
-(29, 15, 9, 2, 1500000.00, '2025-01-29 21:12:35', '2025-01-29 21:12:35'),
-(30, 15, 10, 1, 700000.00, '2025-01-29 21:12:35', '2025-01-29 21:12:35'),
-(31, 15, 3, 4, 10000.00, '2025-01-29 21:12:35', '2025-01-29 21:12:35'),
-(32, 16, 9, 2, 1500000.00, '2025-01-29 21:12:59', '2025-01-29 21:12:59'),
-(33, 16, 10, 1, 700000.00, '2025-01-29 21:12:59', '2025-01-29 21:12:59'),
-(34, 16, 3, 4, 10000.00, '2025-01-29 21:12:59', '2025-01-29 21:12:59');
+('9e30ee97-c97d-418a-a96f-25d77a82a142', '9e30ee97-c800-45ab-a4b0-bec2e5ead278', 'f868d4ac-f582-4deb-bb80-c34d4a20c3d8', 3, 9000.00, '2025-02-11 20:13:05', '2025-02-11 20:13:05'),
+('9e30ee97-cc77-4260-b894-18ee162a8964', '9e30ee97-c800-45ab-a4b0-bec2e5ead278', 'fbf348bb-232f-4c3d-97f1-0aa763d504d7', 2, 19800.00, '2025-02-11 20:13:05', '2025-02-11 20:13:05'),
+('9e30ee97-cfa6-4fd9-b629-1e3ea495a8dd', '9e30ee97-c800-45ab-a4b0-bec2e5ead278', 'a436ad5b-b84d-4a20-95cc-39eeba136726', 2, 12000.00, '2025-02-11 20:13:05', '2025-02-11 20:13:05'),
+('9e3144e6-f89b-464d-a6bd-0ffcedb0ccef', '9e3144e6-f6fd-4b2d-835c-3383223758b3', '13e0d9aa-29a2-471c-8a5e-6ffcd9500840', 4, 16000.00, '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e3144e6-fb68-4688-979a-184d7f4820ba', '9e3144e6-f6fd-4b2d-835c-3383223758b3', '2a4d2612-090a-42e8-adb7-f0782d96fbec', 3, 15000.00, '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e3144e6-fcbc-457e-8c51-2e6f5f86442a', '9e3144e6-f6fd-4b2d-835c-3383223758b3', '803aff3d-2f17-4ea1-9667-53aeb78335d3', 3, 12000.00, '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e3144e6-fe1a-48f5-94ac-08b345a02316', '9e3144e6-f6fd-4b2d-835c-3383223758b3', '4e40dd76-8731-4f2f-bdde-f62e0327d782', 3, 10500.00, '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e3144e7-0022-4228-81c0-1613640642fe', '9e3144e6-f6fd-4b2d-835c-3383223758b3', 'a2c53bfa-a390-4020-a68c-4d98176d4937', 2, 14000.00, '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e31451b-b0d0-4fb6-9bea-759b89820a1b', '9e31451b-aef1-4fa9-b155-eec3390d0c2f', '71de6b81-0491-4ea7-8a0b-bf9079567f18', 2, 5000.00, '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e31451b-b30d-4405-b72d-176851e24a2c', '9e31451b-aef1-4fa9-b155-eec3390d0c2f', '05e4f383-bc85-4f5f-ac26-233ece1fdd16', 2, 6000.00, '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e31451b-b485-4eab-9403-4a0855783da3', '9e31451b-aef1-4fa9-b155-eec3390d0c2f', '3d511c31-79bc-4f9f-bafa-e5a908be37d0', 2, 5800.00, '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e31451b-b6cb-4ee7-b640-d7363e20988b', '9e31451b-aef1-4fa9-b155-eec3390d0c2f', 'a2c53bfa-a390-4020-a68c-4d98176d4937', 2, 14000.00, '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e31451b-b89d-4020-9710-aa97cba77a07', '9e31451b-aef1-4fa9-b155-eec3390d0c2f', 'fbf348bb-232f-4c3d-97f1-0aa763d504d7', 3, 29700.00, '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e314572-9646-4e53-afe1-4e0319145175', '9e314572-950d-48ca-8dd1-5a87d059b65e', '4e40dd76-8731-4f2f-bdde-f62e0327d782', 4, 14000.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e314572-9978-495a-a245-60e0b1dc9950', '9e314572-950d-48ca-8dd1-5a87d059b65e', '13e0d9aa-29a2-471c-8a5e-6ffcd9500840', 3, 12000.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e314572-9ac1-49c7-aa54-832ecba15130', '9e314572-950d-48ca-8dd1-5a87d059b65e', '3d511c31-79bc-4f9f-bafa-e5a908be37d0', 2, 5800.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e314572-9c0a-421b-a517-547352f0959d', '9e314572-950d-48ca-8dd1-5a87d059b65e', '803aff3d-2f17-4ea1-9667-53aeb78335d3', 3, 12000.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e314572-9d4b-469e-ae2d-4db3b403b4e1', '9e314572-950d-48ca-8dd1-5a87d059b65e', 'a436ad5b-b84d-4a20-95cc-39eeba136726', 2, 12000.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e314572-9ec9-4c79-aedd-13150403c35c', '9e314572-950d-48ca-8dd1-5a87d059b65e', 'fbf348bb-232f-4c3d-97f1-0aa763d504d7', 4, 39600.00, '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e3145ca-5913-4bd4-91ba-c7fec9a57f32', '9e3145ca-57a1-4507-8d3a-fdced81eb439', '803aff3d-2f17-4ea1-9667-53aeb78335d3', 4, 16000.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e3145ca-5b92-4b4e-8a55-e1ae6ac3cb67', '9e3145ca-57a1-4507-8d3a-fdced81eb439', '71de6b81-0491-4ea7-8a0b-bf9079567f18', 3, 7500.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e3145ca-5d82-4bd0-b8f9-010b1f6bf310', '9e3145ca-57a1-4507-8d3a-fdced81eb439', '4e40dd76-8731-4f2f-bdde-f62e0327d782', 3, 10500.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e3145ca-5eed-46db-a130-bd51c5da28b1', '9e3145ca-57a1-4507-8d3a-fdced81eb439', '05e4f383-bc85-4f5f-ac26-233ece1fdd16', 3, 9000.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e3145ca-6142-4ade-a4a4-143c35620604', '9e3145ca-57a1-4507-8d3a-fdced81eb439', '13e0d9aa-29a2-471c-8a5e-6ffcd9500840', 4, 16000.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e3145ca-6316-45a0-a56a-7c3638826835', '9e3145ca-57a1-4507-8d3a-fdced81eb439', 'a2c53bfa-a390-4020-a68c-4d98176d4937', 3, 21000.00, '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e314af9-eacd-46c5-bb55-ba7a32f4ecf8', '9e314af9-e968-4172-81b3-0eb8cff844a9', '13e0d9aa-29a2-471c-8a5e-6ffcd9500840', 2, 8000.00, '2025-02-12 00:31:24', '2025-02-12 00:31:24'),
+('9e314af9-ed53-40ad-b858-91d06effdd4c', '9e314af9-e968-4172-81b3-0eb8cff844a9', '2a4d2612-090a-42e8-adb7-f0782d96fbec', 2, 10000.00, '2025-02-12 00:31:24', '2025-02-12 00:31:24');
 
 -- --------------------------------------------------------
 
@@ -180,7 +190,7 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `pelanggan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` char(36) NOT NULL,
   `nama_pelanggan` varchar(255) NOT NULL,
   `alamat` text NOT NULL,
   `nomor_telepon` varchar(255) NOT NULL,
@@ -193,14 +203,12 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`id`, `nama_pelanggan`, `alamat`, `nomor_telepon`, `created_at`, `updated_at`) VALUES
-(7, 'Ardiansyah Sulistyo', 'Jalan Cihanjuang, Gang Ledeng', '08952436321', '2025-01-29 18:23:22', '2025-01-29 18:23:22'),
-(8, 'Iyan Jr', 'Jalan Kahuripan', '08952344631', '2025-01-29 18:23:48', '2025-01-29 18:23:48'),
-(9, 'Ahmad', 'Jalan KH Junjunan', '0895346352', '2025-01-29 18:27:48', '2025-01-29 18:27:48'),
-(10, 'Ujang', 'Jalan Ujang Ganteng', '0879573452', '2025-01-29 18:29:33', '2025-01-29 18:29:33'),
-(11, 'Adit', 'adit', '9036783523', '2025-01-29 18:57:25', '2025-01-29 18:57:25'),
-(13, 'Mahes jELEK', 'JElek', '05214896566', '2025-01-29 18:59:58', '2025-01-29 18:59:58'),
-(15, 'Ordal', 'Jalan Ordal', '08976456772', '2025-01-29 21:12:35', '2025-01-29 21:12:35'),
-(16, 'Ordal', 'Jalan Ordal', '08976456772', '2025-01-29 21:12:59', '2025-01-29 21:12:59');
+('9e30ee97-c526-4d3c-b24e-58da2a8cf3d5', 'Iyan Jr', 'Jalan Iyan Jr', '089566432321', '2025-02-11 20:13:05', '2025-02-11 20:13:05'),
+('9e3144e6-f426-45eb-91c5-13e1ba608a0c', 'Usman', 'Jalan Usman', '089235734273', '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e31451b-ac91-4e96-878b-16dd440c520d', 'Asman', 'Jalan Asman', '089456234356', '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e314572-92cd-4662-86d4-c184bb758746', 'Kisman', 'Jalan Kisman', '089234346234', '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e3145ca-5483-44e5-a99f-2460c485b5ee', 'Tusman', 'Jalan Tusman', '089238434582', '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e314af9-e652-435d-ad43-b7e82e2892d2', 'Perde', 'Jalan Perde', '089523424534', '2025-02-12 00:31:24', '2025-02-12 00:31:24');
 
 -- --------------------------------------------------------
 
@@ -209,10 +217,10 @@ INSERT INTO `pelanggan` (`id`, `nama_pelanggan`, `alamat`, `nomor_telepon`, `cre
 --
 
 CREATE TABLE `penjualan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` char(36) NOT NULL,
   `tanggal_penjualan` date NOT NULL,
   `total_harga` decimal(10,2) NOT NULL,
-  `pelanggan_id` bigint(20) UNSIGNED NOT NULL,
+  `pelanggan_id` char(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -222,14 +230,12 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id`, `tanggal_penjualan`, `total_harga`, `pelanggan_id`, `created_at`, `updated_at`) VALUES
-(7, '2025-01-28', 4500000.00, 7, '2025-01-29 18:23:22', '2025-01-29 18:23:22'),
-(8, '2025-01-29', 19000.00, 8, '2025-01-29 18:23:48', '2025-01-29 18:23:48'),
-(9, '2025-01-30', 220000.00, 9, '2025-01-29 18:27:48', '2025-01-29 18:27:48'),
-(10, '2025-01-27', 23500.00, 10, '2025-01-29 18:29:33', '2025-01-29 18:29:33'),
-(11, '2025-01-30', 140000.00, 11, '2025-01-29 18:57:25', '2025-01-29 18:57:25'),
-(13, '2025-01-30', 15000.00, 13, '2025-01-29 18:59:58', '2025-01-29 18:59:58'),
-(15, '2025-01-30', 2210000.00, 15, '2025-01-29 21:12:35', '2025-01-29 21:12:35'),
-(16, '2025-01-30', 2210000.00, 16, '2025-01-29 21:12:59', '2025-01-29 21:12:59');
+('9e30ee97-c800-45ab-a4b0-bec2e5ead278', '2025-01-29', 40800.00, '9e30ee97-c526-4d3c-b24e-58da2a8cf3d5', '2025-02-11 20:13:05', '2025-02-11 20:13:05'),
+('9e3144e6-f6fd-4b2d-835c-3383223758b3', '2025-02-03', 67500.00, '9e3144e6-f426-45eb-91c5-13e1ba608a0c', '2025-02-12 00:14:25', '2025-02-12 00:14:25'),
+('9e31451b-aef1-4fa9-b155-eec3390d0c2f', '2025-02-04', 60500.00, '9e31451b-ac91-4e96-878b-16dd440c520d', '2025-02-12 00:15:00', '2025-02-12 00:15:00'),
+('9e314572-950d-48ca-8dd1-5a87d059b65e', '2025-02-07', 95400.00, '9e314572-92cd-4662-86d4-c184bb758746', '2025-02-12 00:15:57', '2025-02-12 00:15:57'),
+('9e3145ca-57a1-4507-8d3a-fdced81eb439', '2025-02-10', 80000.00, '9e3145ca-5483-44e5-a99f-2460c485b5ee', '2025-02-12 00:16:54', '2025-02-12 00:16:54'),
+('9e314af9-e968-4172-81b3-0eb8cff844a9', '2025-02-12', 18000.00, '9e314af9-e652-435d-ad43-b7e82e2892d2', '2025-02-12 00:31:24', '2025-02-12 00:31:24');
 
 -- --------------------------------------------------------
 
@@ -238,7 +244,7 @@ INSERT INTO `penjualan` (`id`, `tanggal_penjualan`, `total_harga`, `pelanggan_id
 --
 
 CREATE TABLE `produk` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` char(36) NOT NULL,
   `nama_produk` varchar(255) NOT NULL,
   `harga` decimal(10,2) NOT NULL,
   `stok` int(11) NOT NULL,
@@ -252,17 +258,17 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`id`, `nama_produk`, `harga`, `stok`, `gambar`, `created_at`, `updated_at`) VALUES
-(1, 'Meja', 2500000.00, 96, 'produk/sD5MIK58lCnyUMIgvpe2mUoEZqvsWpB7nc3Azel4.jpg', '2025-01-29 17:58:57', '2025-01-29 19:36:20'),
-(2, 'Kursi', 500000.00, 234, 'produk/X1DaEci8ZtAuHMUCudpcF5nUzVaPQ5vSgM2Co2pA.jpg', '2025-01-29 17:59:55', '2025-01-29 18:23:22'),
-(3, 'Pensil', 2500.00, 396, 'produk/p63rE6L4cGsEp0ep94uh2cTfMXHLDdVbAQguy67D.jpg', '2025-01-29 18:00:16', '2025-01-29 21:12:59'),
-(4, 'Penghapus', 2000.00, 342, 'produk/idMoGg2xooLuWSmZb27B7zj5uBns5wl2KUYuEYlH.jpg', '2025-01-29 18:00:37', '2025-01-29 18:23:48'),
-(5, 'Tipe-X', 3000.00, 238, 'produk/BCNlLEYzxFxoRTIEpSJ4NBr2Jn8vkVYYXAtm6x9J.jpg', '2025-01-29 18:01:46', '2025-01-29 19:00:09'),
-(6, 'Penggaris', 2500.00, 392, 'produk/G6wSsPfa9gt5HW6cgwqAYvmdZ8uqwKKtnDoFwG1E.jpg', '2025-01-29 18:02:45', '2025-01-29 18:23:48'),
-(7, 'Keyboard', 70000.00, 145, 'produk/D8Td3iVIwaTOU7teBgd5c4DiRcrBjtC8Cf4Ci3az.jpg', '2025-01-29 18:05:20', '2025-01-29 18:57:32'),
-(8, 'Mouse', 150000.00, 299, 'produk/52z3q8FxmFBURQszGO6tr1yozrgYL2Hp1ZPtSuqf.jpg', '2025-01-29 18:06:07', '2025-01-29 18:27:48'),
-(9, 'Headset', 750000.00, 196, 'produk/NvWr9igeqwisSZzwQx2efo7ZcrReck7afwlb0R7J.jpg', '2025-01-29 18:06:59', '2025-01-29 21:12:59'),
-(10, 'Karpet Permadani', 700000.00, 98, 'produk/Jts4jD6Zd6LhLyIGKPS4xs34x22QjdqOyzJT7ZrY.jpg', '2025-01-29 18:08:44', '2025-01-29 21:12:59'),
-(11, 'Pulpen', 3500.00, 225, 'produk/TIkrkF9Tk7kGvarofJszfw03HTzRfanupWhLHff5.jpg', '2025-01-29 18:25:54', '2025-01-29 18:29:33');
+('05e4f383-bc85-4f5f-ac26-233ece1fdd16', 'Good Day', 3000.00, 55, 'produk/4i0YKXeBqsNAbDbNOkC6NeY9IJkkURFm8fmiT7zU.jpg', '2025-02-11 18:26:40', '2025-02-12 00:16:54'),
+('13e0d9aa-29a2-471c-8a5e-6ffcd9500840', 'Aqua', 4000.00, 57, 'produk/2eXRk9y6eUVTWMNaRxBt4QoqbgXCmGKawknhovG0.jpg', '2025-02-11 18:26:40', '2025-02-12 00:31:24'),
+('2a4d2612-090a-42e8-adb7-f0782d96fbec', 'Tango', 5000.00, 25, 'produk/TigLahhHPv7aIPw7FLj6p3FxS0ZRM2Oex6KMW5Gu.jpg', '2025-02-11 18:26:40', '2025-02-12 00:31:24'),
+('3d511c31-79bc-4f9f-bafa-e5a908be37d0', 'Indomie', 2900.00, 100, 'produk/nMwSbSLp4UgbDA0qNjOwTmiO3LHCpfs4cmMJDFOk.jpg', '2025-02-11 18:26:40', '2025-02-12 00:24:14'),
+('4e40dd76-8731-4f2f-bdde-f62e0327d782', 'Fruit Tea', 3500.00, 35, 'produk/whbhuA0nje6HFdskQji5avZuh9TGKhjy7FuAhmX5.jpg', '2025-02-11 18:26:40', '2025-02-12 00:16:54'),
+('71de6b81-0491-4ea7-8a0b-bf9079567f18', 'Beng Beng', 2500.00, 75, 'produk/o4QN94Rox5ZgKQqC79mKrym9nRPuPPYfeezZd9A9.jpg', '2025-02-11 18:26:40', '2025-02-12 00:16:54'),
+('803aff3d-2f17-4ea1-9667-53aeb78335d3', 'Nabati', 4000.00, 30, 'produk/WROurdJNNlCprXSzGN7p89H82t4d1F8QoDPa0cZR.jpg', '2025-02-11 18:26:40', '2025-02-12 00:16:54'),
+('a2c53bfa-a390-4020-a68c-4d98176d4937', 'Nutriboost', 7000.00, 13, 'produk/fUV0NOeOJbjoIjWYNznu4gBdGIKv1e0gsygdRvVD.jpg', '2025-02-11 18:26:40', '2025-02-12 00:16:54'),
+('a436ad5b-b84d-4a20-95cc-39eeba136726', 'Gery Malkist', 6000.00, 21, 'produk/2t0EnppR1k5U7iThHYugkbx7ovwaVJYFUcRknAQI.jpg', '2025-02-11 18:26:40', '2025-02-12 00:15:57'),
+('f868d4ac-f582-4deb-bb80-c34d4a20c3d8', 'Teh Pucuk', 3000.00, 47, 'produk/9UquCu9jc05TQHz6f2YR0nAFRVUWnbGTyemZ49mA.jpg', '2025-02-11 18:26:40', '2025-02-12 00:11:52'),
+('fbf348bb-232f-4c3d-97f1-0aa763d504d7', 'Chitato', 9900.00, 26, 'produk/Xra9oieb7YnGrRXH3yU02JFXnioNh9pBtY9DdSai.jpg', '2025-02-11 18:26:40', '2025-02-12 00:15:57');
 
 -- --------------------------------------------------------
 
@@ -284,8 +290,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('beUQAPPgH4H3ayAGBIbFFKcZ6wEixzBDmgn1rg2i', '9e169708-16ef-4a22-b48b-09a108f348fc', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNWgyMDkxcnBneHNmWWVibEJ6eUo4QUxZckdQTGRFaTVUaE1xQ3BIYiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BlbWJlbGlhbiI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMwOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvY2hlY2tvdXQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7czozNjoiOWUxNjk3MDgtMTZlZi00YTIyLWI0OGItMDlhMTA4ZjM0OGZjIjt9', 1738210379),
-('ZuOn6a8MGLYD9u7lnttP0lmODHGT6J34SH2ky49b', '9e16968d-8d27-4ea8-a8d1-9050d8c7242f', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiU1p1SEl3aWQwb0QyT3hTeGxKZFQyZWxxNkQxNjVrRk5NRHE4SmMycyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO3M6MzY6IjllMTY5NjhkLThkMjctNGVhOC1hOGQxLTkwNTBkOGM3MjQyZiI7fQ==', 1738210379);
+('3B37K7Aq9Zh1LSFS4lBt2Eph8Pjv7VcW9IKBziOH', '9e30c889-9ed7-4f0a-a5e1-4f926b2a1cf8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZXpRZVZneHFvbnVnRjhIMzRQMmRhaGNobUJvRG5EWlJZdGZxRThuQiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7czozNjoiOWUzMGM4ODktOWVkNy00ZjBhLWE1ZTEtNGY5MjZiMmExY2Y4Ijt9', 1739346000),
+('QJ6YRcZN1AkFTa021n50fmzIQw2BYhokt83T9naT', '9e30d27e-7a16-4026-bea6-65d2271efda8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoibnlFM0ZZRmU2aTZZVVRPOWNWeGppcVl4a3BvRGVsUExLd0N3MklhNiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0ODoiaHR0cDovL2xvY2FsaG9zdC9hcGxpa2FzaV9rYXNpci9wdWJsaWMvcGVtYmVsaWFuIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly9sb2NhbGhvc3QvYXBsaWthc2lfa2FzaXIvcHVibGljL3Byb2R1ayI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtzOjM2OiI5ZTMwZDI3ZS03YTE2LTQwMjYtYmVhNi02NWQyMjcxZWZkYTgiO30=', 1739345505),
+('siJuyZ7RS1kFBiMzYXeRaBzScKjts1IrqWpTsgJp', '9e30c889-9ed7-4f0a-a5e1-4f926b2a1cf8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiREtPYnVkSU1vTTFCcjQ2cjczeE5jaUgzR1NLcWZpWW84T2x5QUdSWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDg6Imh0dHA6Ly9sb2NhbGhvc3QvYXBsaWthc2lfa2FzaXIvcHVibGljL2Rhc2hib2FyZCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtzOjM2OiI5ZTMwYzg4OS05ZWQ3LTRmMGEtYTVlMS00ZjkyNmIyYTFjZjgiO30=', 1739346035);
 
 -- --------------------------------------------------------
 
@@ -311,12 +318,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `nama_lengkap`, `role`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-('9e16968d-8d27-4ea8-a8d1-9050d8c7242f', 'admin', 'admin@example.com', '$2y$12$yYHN92UUurPpVKswrn3O7.lpLFtyNxgIc5pgcKA4ExriHJsUr.kqa', 'Admin', 'admin', NULL, NULL, '2025-01-29 17:55:23', '2025-01-29 17:55:23'),
-('9e169708-16ef-4a22-b48b-09a108f348fc', 'petugas', 'petugas@example.com', '$2y$12$LThwELsWu1CivQiy0fa4KeIaZA5Df5qBM6vcbS6xq964xfR0eUBw.', 'Petugas', 'petugas', NULL, NULL, '2025-01-29 17:56:43', '2025-01-29 17:56:43'),
-('9e16a551-f04f-4a04-a150-19c9c05ad004', 'petugas2', 'petugas2@example.com', '$2y$12$RMiGhE15VqrkwcsRZVhLHe8pry3pHbv43E/OBGrUTRVF8P9gFS0xS', 'Petugas 2', 'petugas', NULL, NULL, '2025-01-29 18:36:40', '2025-01-29 18:36:40'),
-('9e16a56c-fcef-405c-8a98-9492c94f44f5', 'petugas3', 'petugas3@example.com', '$2y$12$LfPY1Z54CXz2r4Ta4V2JeuX52PKh2OIN77H1Uq9mY.bLjo5hgFxsC', 'Petugas 3', 'petugas', NULL, NULL, '2025-01-29 18:36:58', '2025-01-29 18:36:58'),
-('9e16a589-b565-4c08-85b9-37050b380cd6', 'petugas4', 'petugas4@example.com', '$2y$12$IZbeZ68AGllki6Xz9vtyW.0D97kPYVMy2MiHp.kjPLbg7bN/jtDfO', 'Petugas 4', 'petugas', NULL, NULL, '2025-01-29 18:37:17', '2025-01-29 18:37:17'),
-('9e16a5a4-4c60-4816-bbd4-b6939ae4e2bd', 'petugas5', 'petugas5@example.com', '$2y$12$EeiNxsn/StXb0K8/j2eVHuimH1DhhsEnTxyLqDh6V6TFSJMoqKu.a', 'Petugas 5', 'petugas', NULL, NULL, '2025-01-29 18:37:34', '2025-01-29 18:37:34');
+('9e30c889-9ed7-4f0a-a5e1-4f926b2a1cf8', 'admin', 'admin@example.com', '$2y$12$OAZPPUqKdyQIG4o6qT9aQun4Oc2tTJrdGR2DbR9/2pU/cY/Src2Wi', 'Admin', 'admin', NULL, NULL, '2025-02-11 18:26:40', '2025-02-12 00:29:39'),
+('9e30d27e-7a16-4026-bea6-65d2271efda8', 'iyan', 'iyan@example.com', '$2y$12$tpqS9sqCz4lV493LAnyIr.7xe4Bn4aiFx./J1kplJCiUtVPDFaqMG', 'Ardiansyah Sulistyo', 'petugas', NULL, NULL, '2025-02-11 18:54:31', '2025-02-11 18:54:31');
 
 --
 -- Indexes for dumped tables
@@ -412,12 +415,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `detail_penjualan`
---
-ALTER TABLE `detail_penjualan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -434,24 +431,6 @@ ALTER TABLE `jobs`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT untuk tabel `pelanggan`
---
-ALTER TABLE `pelanggan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT untuk tabel `penjualan`
---
-ALTER TABLE `penjualan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT untuk tabel `produk`
---
-ALTER TABLE `produk`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
