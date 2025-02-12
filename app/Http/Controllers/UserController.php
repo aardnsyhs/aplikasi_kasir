@@ -35,7 +35,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
 
-        return redirect()->route('user.index')->with('status', 'User berhasil ditambahkan.');
+        return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     /**
@@ -82,6 +82,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('user.index')->with('status', 'User berhasil dihapus!');
+        return redirect()->route('user.index')->with('success', 'User berhasil dihapus!');
     }
 }
