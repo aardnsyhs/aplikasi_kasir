@@ -52,7 +52,7 @@ class ProdukController extends Controller
             'gambar' => $gambarPath
         ]);
 
-        return redirect()->route('produk.index')->with('status', 'Produk berhasil ditambahkan.');
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     /**
@@ -109,7 +109,7 @@ class ProdukController extends Controller
         $q = $request->input('search');
 
         $produk = Produk::where('nama_produk', 'like', '%' . $q . '%')
-                        ->paginate(10);
+            ->paginate(10);
 
         return view('produk.index', compact('produk', 'q'));
     }

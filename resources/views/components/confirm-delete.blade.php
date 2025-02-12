@@ -47,8 +47,9 @@
 <script>
     function openDeleteModal(id, type) {
         document.getElementById('deleteModal').classList.remove('hidden');
+        const baseUrl = "{{ url('/') }}";
         const deleteForm = document.getElementById('deleteForm');
-        deleteForm.action = `/${type}/${id}`;
+        deleteForm.action = `${baseUrl}/${type}/${id}`;
         const modalText = document.getElementById('modalText');
         modalText.textContent = `Apakah Anda yakin untuk menghapus ${type} ini?`;
     }
