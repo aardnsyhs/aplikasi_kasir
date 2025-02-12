@@ -121,13 +121,13 @@
                     ];
                 }
             @endphp
-            @foreach ($links as $link)
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+            <div class="pt-2 pb-3 space-y-1">
+                @foreach ($links as $link)
                     <x-responsive-nav-link :href="route($link['route'])" :active="request()->routeIs($link['route'] . '*')">
                         {{ __($link['label']) }}
                     </x-responsive-nav-link>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         @endif
 
         <!-- Responsive Settings Options -->
