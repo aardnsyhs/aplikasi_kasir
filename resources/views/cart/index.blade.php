@@ -10,7 +10,7 @@
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                     <div class="space-y-6">
-                        @foreach (session('cart', []) as $item)
+                        @forelse (session('cart', []) as $item)
                             <div
                                 class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                                 <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
@@ -72,7 +72,23 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div
+                                class="flex flex-col items-center justify-center w-full max-w-2xl p-10 bg-white rounded-lg shadow-md dark:bg-gray-800 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                                <p class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Keranjang Anda Kosong
+                                </p>
+                                <a href="{{ route('pembelian.index') }}"
+                                    class="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400">Lanjutkan
+                                    belanja</a>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
                 @if (session()->has('cart') && count(session('cart')) > 0)

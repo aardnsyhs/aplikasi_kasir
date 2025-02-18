@@ -19,14 +19,18 @@ class Penjualan extends Model
     protected $fillable = [
         'tanggal_penjualan',
         'total_harga',
+        'nominal_bayar',
+        'kembalian',
         'pelanggan_id',
     ];
 
-    public function pelanggan() {
+    public function pelanggan()
+    {
         return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
     }
 
-    public function detailPenjualan() {
+    public function detailPenjualan()
+    {
         return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
     }
 }

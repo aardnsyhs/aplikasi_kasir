@@ -77,11 +77,27 @@
                                 @enderror
                             </div>
 
+                            <div>
+                                <label for="nominal_bayar" class="block text-sm font-medium text-gray-700">Nominal
+                                    Bayar</label>
+                                <input type="number" id="nominal_bayar" name="nominal_bayar"
+                                    class="w-full rounded-md border-gray-300 px-4 py-3 text-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Masukkan jumlah uang yang dibayarkan">
+                                @error('nominal_bayar')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                             <div class="flex justify-between mt-4">
                                 <p class="text-xl font-semibold">Total Harga</p>
                                 <p class="text-xl font-bold text-gray-900">
                                     Rp.{{ number_format(collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']), 2, ',', '.') }}
                                 </p>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <p class="text-md font semibold">Kembalian</p>
+                                <p class="text-md font-semibold">Rp.<span id="kembalian">0</span></p>
                             </div>
 
                             <div class="flex justify-end">
@@ -97,3 +113,13 @@
         </div>
     </section>
 </x-app-layout>
+
+<script>
+    document.getElementById('nominal_bayar').addEventListener('input', function () {
+        let totalHarga = parseFloat("{{ collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']) }}");
+        let nominalBayar = parseFloat(this.value);
+        let kembalian = nominalBayar - totalHarga;
+
+        document.getElementById('kembalian').textContent = kembalian >= 0 ? kembalian.toFixed(2) : '0';
+    })
+</script>

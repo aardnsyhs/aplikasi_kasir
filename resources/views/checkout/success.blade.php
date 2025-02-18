@@ -7,6 +7,7 @@
         height: auto;
     }
 </style>
+
 <x-app-layout>
     <section class="dark:bg-gray-900 p-3 sm:p-5 flex justify-center">
         <div id="struk-belanja" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg border border-gray-300">
@@ -16,12 +17,15 @@
             <h2 class="text-lg font-semibold text-center text-green-600">Pembayaran Berhasil!</h2>
             <p class="text-sm text-center text-gray-700">Terima kasih telah berbelanja.</p>
             <hr class="my-2 border-dashed border-gray-400">
+
             <div class="text-sm font-mono">
                 <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
                 <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
                 <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
             </div>
+
             <hr class="my-2 border-dashed border-gray-400">
+
             <table class="w-full text-sm font-mono">
                 <thead>
                     <tr>
@@ -52,11 +56,21 @@
                         <td class="text-right font-bold">Rp.{{ number_format($penjualan->total_harga, 2, ',', '.') }}
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">Nominal Bayar</td>
+                        <td class="text-right font-bold">Rp.{{ number_format($penjualan->nominal_bayar, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">Kembalian</td>
+                        <td class="text-right font-bold">Rp.{{ number_format($penjualan->kembalian, 2, ',', '.') }}</td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
     </section>
-    <div class="text-center">
+
+    <div class="text-center mt-4">
         @if (auth()->user()->role === 'petugas')
             <button onclick="printStruk()"
                 class="inline-block bg-gray-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800">Cetak</button>

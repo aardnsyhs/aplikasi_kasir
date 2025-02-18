@@ -32,7 +32,16 @@ class CheckoutController extends Controller
             'produk.*.produk_id' => 'required|exists:produk,id',
             'produk.*.quantity' => 'required|integer|min:1',
             'produk.*.harga' => 'required|numeric|min:0',
+            'nominal_bayar' => 'required|numeric|min:0'
         ]);
+
+        $totalHarga = collect($validated['produk'])->sum(fn($item) => $item['harga'] * $item['quantity']);
+        $nominalBayar = $validated['nominal_bayar'];
+        $kembalian = $nominalBayar - $totalHarga;
+
+        if ($kembalian < 0) {
+            return back()->withErrors(['nominal_bayar' => 'Jumlah yang dibayarkan kurang dari tota harga!']);
+        }
 
         $pelanggan = Pelanggan::create([
             'nama_pelanggan' => $validated['nama_pelanggan'],
@@ -42,7 +51,9 @@ class CheckoutController extends Controller
 
         $penjualan = Penjualan::create([
             'tanggal_penjualan' => Carbon::now(),
-            'total_harga' => collect($validated['produk'])->sum(fn($item) => $item['harga'] * $item['quantity']),
+            'total_harga' => $totalHarga,
+            'nominal_bayar' => $nominalBayar,
+            'kembalian' => $kembalian,
             'pelanggan_id' => $pelanggan->id,
         ]);
 
