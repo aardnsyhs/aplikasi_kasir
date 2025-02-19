@@ -26,24 +26,18 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'jenis_pelanggan' => 'required|in:bukan_member,member_baru,member',
-                'nama_pelanggan' => 'nullable|required_if:jenis_pelanggan,member_baru|string|max:255',
-                'alamat' => 'nullable|required_if:jenis_pelanggan,member_baru|string',
-                'nomor_telepon' => 'nullable|required_if:jenis_pelanggan,member_baru|string|regex:/^08[0-9]{8,11}$/',
-                'username_member' => 'nullable|required_if:jenis_pelanggan,member|string|exists:pelanggan,username',
-                'produk' => 'required|array',
-                'produk.*.produk_id' => 'required|exists:produk,id',
-                'produk.*.quantity' => 'required|integer|min:1',
-                'produk.*.harga' => 'required|numeric|min:0',
-                'nominal_bayar' => 'required|numeric|min:0'
-            ]);
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->errors());
-        }
-
+        $validated = $request->validate([
+            'jenis_pelanggan' => 'required|in:bukan_member,member_baru,member',
+            'nama_pelanggan' => 'nullable|required_if:jenis_pelanggan,member_baru|string|max:255',
+            'alamat' => 'nullable|required_if:jenis_pelanggan,member_baru|string',
+            'nomor_telepon' => 'nullable|required_if:jenis_pelanggan,member_baru|string|regex:/^08[0-9]{8,11}$/',
+            'username_member' => 'nullable|required_if:jenis_pelanggan,member|string|exists:pelanggan,username',
+            'produk' => 'required|array',
+            'produk.*.produk_id' => 'required|exists:produk,id',
+            'produk.*.quantity' => 'required|integer|min:1',
+            'produk.*.harga' => 'required|numeric|min:0',
+            'nominal_bayar' => 'required|numeric|min:0'
+        ]);
 
         $totalHarga = collect($validated['produk'])->sum(fn($item) => $item['harga'] * $item['quantity']);
         $nominalBayar = $validated['nominal_bayar'];
@@ -126,13 +120,22 @@ class CheckoutController extends Controller
     public function cekMember(Request $request)
     {
         $username = $request->query('username');
+
+        if (!$username) {
+            return response()->json(['found' => false, 'message' => 'Username tidak boleh kosong.'], 400);
+        }
+
         $member = Pelanggan::where('username', $username)->first();
 
         if ($member) {
-            return response()->json(['found' => true, 'nama' => $member->nama_pelanggan]);
+            return response()->json([
+                'found' => true,
+                'nama' => $member->nama_pelanggan,
+                'alamat' => $member->alamat,
+                'nomor_telepon' => $member->nomor_telepon
+            ]);
         }
 
-        return response()->json(['found' => false]);
+        return response()->json(['found' => false, 'message' => 'Member tidak ditemukan.']);
     }
-
 }

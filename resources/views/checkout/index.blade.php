@@ -72,6 +72,9 @@
                                 <input type="text" id="username_member" name="username_member"
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Masukkan username member" oninput="cekMember()">
+                                @error('username_member')
+                                    <p class="text-red-600 dark:text-red-600 text-sm mt-2">{{ $message }}</p>
+                                @enderror
                                 <p id="status_member" class="text-sm mt-2"></p>
                             </div>
                             <div id="form_pelanggan" class="hidden">
@@ -164,20 +167,45 @@
         let username = document.getElementById('username_member').value;
 
         if (username.length > 3) {
-            fetch(`/cek-member?username=${username}`)
+            fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?username=${username}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.found) {
                         document.getElementById('status_member').textContent = "Member ditemukan: " + data.nama;
+
+                        document.getElementById('nama_pelanggan').value = data.nama;
+                        document.getElementById('alamat').value = data.alamat;
+                        document.getElementById('nomor_telepon').value = data.nomor_telepon;
+
+                        document.getElementById('form_pelanggan').classList.remove('hidden');
+
+                        document.getElementById('nama_pelanggan').setAttribute('readonly', true);
+                        document.getElementById('alamat').setAttribute('readonly', true);
+                        document.getElementById('nomor_telepon').setAttribute('readonly', true);
                     } else {
                         document.getElementById('status_member').textContent = "Member tidak ditemukan.";
+
+                        document.getElementById('nama_pelanggan').value = "";
+                        document.getElementById('alamat').value = "";
+                        document.getElementById('nomor_telepon').value = "";
+
+                        document.getElementById('form_pelanggan').classList.add('hidden');
+
+                        document.getElementById('nama_pelanggan').removeAttribute('readonly');
+                        document.getElementById('alamat').removeAttribute('readonly');
+                        document.getElementById('nomor_telepon').removeAttribute('readonly');
                     }
                 })
                 .catch(() => {
-                    document.getElementById('status_member').textContent = "Terjadi kesalahan.";
+                    document.getElementById('status_member').textContent = "Terjadi kesalahan saat mencari member.";
                 });
         } else {
             document.getElementById('status_member').textContent = "";
+            document.getElementById('form_pelanggan').classList.add('hidden');
+
+            document.getElementById('nama_pelanggan').removeAttribute('readonly');
+            document.getElementById('alamat').removeAttribute('readonly');
+            document.getElementById('nomor_telepon').removeAttribute('readonly');
         }
     }
 </script>
