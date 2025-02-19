@@ -92,6 +92,7 @@ class CheckoutController extends Controller
                 DetailPenjualan::create([
                     'penjualan_id' => $penjualan->id,
                     'produk_id' => $produk['produk_id'],
+                    'nama_produk' => $produkModel->nama_produk,
                     'jumlah_produk' => $produk['quantity'],
                     'subtotal' => $produk['quantity'] * $produk['harga'],
                 ]);
