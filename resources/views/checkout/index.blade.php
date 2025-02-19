@@ -97,7 +97,7 @@
 
                             <div class="flex justify-between">
                                 <p class="text-md font semibold">Kembalian</p>
-                                <p class="text-md font-semibold">Rp.<span id="kembalian">0</span></p>
+                                <p class="text-md font-semibold"><span id="kembalian">0</span></p>
                             </div>
 
                             <div class="flex justify-end">
@@ -120,6 +120,13 @@
         let nominalBayar = parseFloat(this.value);
         let kembalian = nominalBayar - totalHarga;
 
-        document.getElementById('kembalian').textContent = kembalian >= 0 ? kembalian.toFixed(2) : '0';
+        function formatCurrency(amount) {
+            return 'Rp.' + new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        }
+
+        document.getElementById('kembalian').textContent = kembalian >= 0 ? formatCurrency(kembalian) : formatCurrency(0);
     })
 </script>
