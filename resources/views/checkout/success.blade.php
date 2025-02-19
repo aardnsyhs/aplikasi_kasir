@@ -34,20 +34,19 @@
                 </thead>
                 <tbody>
                     @foreach ($penjualan->detailPenjualan as $detail)
-                        <tr>
-                            <td class="text-left">
-                                {{ $detail->produk?->nama_produk ?? $detail->nama_produk . " (Tidak tersedia)" }}
-                            </td>
-                            <td class="text-right">{{ $detail->jumlah_produk }}</td>
-                            <td class="text-right text-nowrap">
-                                @if ($detail->produk)
-                                    Rp.{{ number_format($detail->produk->harga, 2, ',', '.') }}
-                                @else
-                                    Rp.{{ number_format($detail->harga, 2, ',', '.') }} <br /> (Tidak tersedia)
-                                @endif
-                            </td>
-                            <td class="text-right">Rp.{{ number_format($detail->subtotal, 2, ',', '.') }}</td>
-                        </tr>
+                                        @php
+                                            $hargaSatuan = $detail->jumlah_produk > 0 ? ($detail->subtotal / $detail->jumlah_produk) : 0;
+                                        @endphp
+                                        <tr>
+                                            <td class="text-left">
+                                                {{ $detail->produk?->nama_produk ?? $detail->nama_produk . " (Tidak tersedia)" }}
+                                            </td>
+                                            <td class="text-right">{{ $detail->jumlah_produk }}</td>
+                                            <td class="text-right text-nowrap">
+                                                Rp.{{ number_format($hargaSatuan, 2, ',', '.') }}
+                                            </td>
+                                            <td class="text-right">Rp.{{ number_format($detail->subtotal, 2, ',', '.') }}</td>
+                                        </tr>
                     @endforeach
                 </tbody>
                 <tfoot>

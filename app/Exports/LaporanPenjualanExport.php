@@ -80,7 +80,7 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
             $rows[] = [
                 $penjualan->pelanggan ? $penjualan->pelanggan->nama_pelanggan : 'Tidak Diketahui',
                 Carbon::parse($penjualan->tanggal_penjualan)->translatedFormat('d F Y'),
-                $detail->produk->nama_produk ?? 'Produk Tidak Diketahui',
+                $detail->produk?->nama_produk ?? $detail->nama_produk . " (Tidak tersedia)",
                 $detail->jumlah_produk,
                 'Rp.' . number_format($hargaSatuan, 2, ',', '.'),
                 'Rp.' . number_format($detail->subtotal, 2, ',', '.'),

@@ -128,9 +128,10 @@
                                             {{ $transaksi->pelanggan ? $transaksi->pelanggan->nama_pelanggan : 'Tidak Diketahui' }}
                                         </td>
                                         <td rowspan="{{ $detailCount }}">
-                                            {{ Carbon::parse($transaksi->tanggal_penjualan)->translatedFormat('d F Y') }}</td>
+                                            {{ Carbon::parse($transaksi->tanggal_penjualan)->translatedFormat('d F Y') }}
+                                        </td>
                                     @endif
-                                    <td>{{ $detail->produk->nama_produk ?? 'Produk Tidak Diketahui' }}</td>
+                                    <td>{{ $detail->produk?->nama_produk ?? $detail->nama_produk . " (Tidak tersedia)" }}</td>
                                     <td>{{ $detail->jumlah_produk }}</td>
                                     <td>Rp.{{ number_format($hargaSatuan, 2, ',', '.') }}</td>
                                     <td>Rp.{{ number_format($detail->subtotal, 2, ',', '.') }}</td>
