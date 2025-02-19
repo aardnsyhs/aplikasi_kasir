@@ -37,11 +37,15 @@ class StokController extends Controller
      */
     public function update(Request $request, Produk $stok)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'stok' => 'required|integer|min:1',
         ]);
 
-        $stok->update($validatedData);
+        if ($request->stok < $stok->stok) {
+            return redirect()->back()->withErrors(['stok' => 'Stok baru tidak boleh lebih kecil dari stok saat ini!']);
+        }
+
+        $stok->update(['stok' => $request->stok]);
         return redirect()->route('stok.index')->with('success', 'Stok berhasil diperbarui!');
     }
 
@@ -50,7 +54,7 @@ class StokController extends Controller
         $q = $request->input('search');
 
         $stok = Produk::where('nama_produk', 'like', '%' . $q . '%')
-                        ->paginate(10);
+            ->paginate(10);
 
         return view('stok.index', compact('stok', 'q'));
     }
