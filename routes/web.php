@@ -40,7 +40,6 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::resource('pembelian', PembelianController::class);
-
     });
 
     Route::prefix('profile')->name('profile.')->group(function () {
