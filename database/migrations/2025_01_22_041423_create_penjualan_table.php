@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->decimal('total_harga', 10, 2);
             $table->decimal('nominal_bayar', 10, 2);
             $table->decimal('kembalian', 10, 2);
-            $table->uuid('pelanggan_id');
+            $table->uuid('pelanggan_id')->nullable();
             $table->uuid('user_id');
             $table->timestamps();
 

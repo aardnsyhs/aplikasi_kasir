@@ -55,6 +55,11 @@
                                         <span class="ml-2">Bukan Member</span>
                                     </label>
                                     <label class="flex items-center">
+                                        <input type="radio" name="jenis_pelanggan" value="member_baru"
+                                            onclick="togglePelangganForm()">
+                                        <span class="ml-2">Member Baru</span>
+                                    </label>
+                                    <label class="flex items-center">
                                         <input type="radio" name="jenis_pelanggan" value="member"
                                             onclick="togglePelangganForm()">
                                         <span class="ml-2">Member</span>
@@ -68,28 +73,8 @@
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Masukkan username member" oninput="cekMember()">
                                 <p id="status_member" class="text-sm mt-2"></p>
-                                <div>
-                                    <label for="nominal_bayar" class="block text-sm font-medium text-gray-700">Nominal
-                                        Bayar</label>
-                                    <input type="number" id="nominal_bayar" name="nominal_bayar"
-                                        class="w-full rounded-md border-gray-300 px-4 py-3 text-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Masukkan jumlah uang yang dibayarkan">
-                                    @error('nominal_bayar')
-                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="flex justify-between mt-4">
-                                    <p class="text-xl font-semibold">Total Harga</p>
-                                    <p class="text-xl font-bold text-gray-900">
-                                        Rp.{{ number_format(collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']), 2, ',', '.') }}
-                                    </p>
-                                </div>
-                                <div class="flex justify-between">
-                                    <p class="text-md font semibold">Kembalian</p>
-                                    <p class="text-md font-semibold"><span id="kembalian">0</span></p>
-                                </div>
                             </div>
-                            <div id="form_pelanggan">
+                            <div id="form_pelanggan" class="hidden">
                                 <div>
                                     <label for="nama_pelanggan" class="block text-sm font-medium text-gray-700">Nama
                                         Pelanggan</label>
@@ -109,26 +94,26 @@
                                         class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="08xxxxxxxxxx">
                                 </div>
-                                <div>
-                                    <label for="nominal_bayar" class="block text-sm font-medium text-gray-700">Nominal
-                                        Bayar</label>
-                                    <input type="number" id="nominal_bayar" name="nominal_bayar"
-                                        class="w-full rounded-md border-gray-300 px-4 py-3 text-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Masukkan jumlah uang yang dibayarkan">
-                                    @error('nominal_bayar')
-                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="flex justify-between mt-4">
-                                    <p class="text-xl font-semibold">Total Harga</p>
-                                    <p class="text-xl font-bold text-gray-900">
-                                        Rp.{{ number_format(collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']), 2, ',', '.') }}
-                                    </p>
-                                </div>
-                                <div class="flex justify-between">
-                                    <p class="text-md font semibold">Kembalian</p>
-                                    <p class="text-md font-semibold">Rp.<span id="kembalian">0</span></p>
-                                </div>
+                            </div>
+                            <div>
+                                <label for="nominal_bayar" class="block text-sm font-medium text-gray-700">Nominal
+                                    Bayar</label>
+                                <input type="number" id="nominal_bayar" name="nominal_bayar"
+                                    class="w-full rounded-md border-gray-300 px-4 py-3 text-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Masukkan jumlah uang yang dibayarkan">
+                                @error('nominal_bayar')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="flex justify-between mt-4">
+                                <p class="text-xl font-semibold">Total Harga</p>
+                                <p class="text-xl font-bold text-gray-900">
+                                    Rp.{{ number_format(collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']), 2, ',', '.') }}
+                                </p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-md font semibold">Kembalian</p>
+                                <p class="text-md font-semibold"><span id="kembalian">0</span></p>
                             </div>
                         </div>
                         <div class="flex justify-end">
@@ -161,10 +146,18 @@
     })
 
     function togglePelangganForm() {
-        let isMember = document.querySelector('input[name="jenis_pelanggan"]:checked').value === 'member';
+        let jenisPelanggan = document.querySelector('input[name="jenis_pelanggan"]:checked').value;
 
-        document.getElementById('cari_member').classList.toggle('hidden', !isMember);
-        document.getElementById('form_pelanggan').classList.toggle('hidden', isMember);
+        if (jenisPelanggan === 'bukan_member') {
+            document.getElementById('cari_member').classList.add('hidden');
+            document.getElementById('form_pelanggan').classList.add('hidden');
+        } else if (jenisPelanggan === 'member_baru') {
+            document.getElementById('cari_member').classList.add('hidden');
+            document.getElementById('form_pelanggan').classList.remove('hidden');
+        } else if (jenisPelanggan === 'member') {
+            document.getElementById('cari_member').classList.remove('hidden');
+            document.getElementById('form_pelanggan').classList.add('hidden');
+        }
     }
 
     function cekMember() {
@@ -176,10 +169,8 @@
                 .then(data => {
                     if (data.found) {
                         document.getElementById('status_member').textContent = "Member ditemukan: " + data.nama;
-                        document.getElementById('form_pelanggan').classList.add('hidden');
                     } else {
-                        document.getElementById('status_member').textContent = "Member tidak ditemukan, isi data pelanggan baru.";
-                        document.getElementById('form_pelanggan').classList.remove('hidden');
+                        document.getElementById('status_member').textContent = "Member tidak ditemukan.";
                     }
                 })
                 .catch(() => {
@@ -187,7 +178,6 @@
                 });
         } else {
             document.getElementById('status_member').textContent = "";
-            document.getElementById('form_pelanggan').classList.remove('hidden');
         }
     }
 </script>

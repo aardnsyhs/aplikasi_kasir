@@ -1,13 +1,3 @@
-<style>
-    @page {
-        size: auto;
-        margin-top: 0mm;
-        margin-bottom: 0mm;
-        width: auto;
-        height: auto;
-    }
-</style>
-
 <x-app-layout>
     <section class="dark:bg-gray-900 p-3 sm:p-5 flex justify-center">
         <div id="struk-belanja" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg border border-gray-300">
@@ -20,11 +10,15 @@
 
             <div class="text-sm font-mono">
                 <div class="flex justify-between">
-                    <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                    @if ($penjualan->pelanggan)
+                        <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                    @endif
                     <p><strong>Nama Kasir:</strong> {{ $kasir->petugas->nama_lengkap }}</p>
                 </div>
-                <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
-                <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
+                @if ($penjualan->pelanggan)
+                    <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
+                    <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
+                @endif
             </div>
 
             <hr class="my-2 border-dashed border-gray-400">

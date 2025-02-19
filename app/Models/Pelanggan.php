@@ -19,10 +19,13 @@ class Pelanggan extends Model
     protected $fillable = [
         'nama_pelanggan',
         'alamat',
-        'nomor_telepon'
+        'nomor_telepon',
+        'username',
+        'jenis_pelanggan'
     ];
 
-    public function penjualan() {
+    public function penjualan()
+    {
         return $this->hasMany(Penjualan::class, 'pelanggan_id');
     }
 }

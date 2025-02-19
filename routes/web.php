@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::resource('pembelian', PembelianController::class);
+        Route::get('/cek-member', [CheckoutController::class, 'cekMember']);
     });
 
     Route::prefix('profile')->name('profile.')->group(function () {
