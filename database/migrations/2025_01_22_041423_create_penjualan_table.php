@@ -17,9 +17,11 @@ return new class extends Migration {
             $table->decimal('nominal_bayar', 10, 2);
             $table->decimal('kembalian', 10, 2);
             $table->uuid('pelanggan_id');
+            $table->uuid('user_id');
             $table->timestamps();
 
             $table->foreign('pelanggan_id')->references('id')->on('pelanggan');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -19,7 +19,10 @@
             <hr class="my-2 border-dashed border-gray-400">
 
             <div class="text-sm font-mono">
-                <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                <div class="flex justify-between">
+                    <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                    <p><strong>Nama Kasir:</strong> {{ $kasir->petugas->nama_lengkap }}</p>
+                </div>
                 <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
                 <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
             </div>

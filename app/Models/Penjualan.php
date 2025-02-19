@@ -22,6 +22,7 @@ class Penjualan extends Model
         'nominal_bayar',
         'kembalian',
         'pelanggan_id',
+        'user_id'
     ];
 
     public function pelanggan()
@@ -32,5 +33,10 @@ class Penjualan extends Model
     public function detailPenjualan()
     {
         return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
+    }
+
+    public function petugas()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

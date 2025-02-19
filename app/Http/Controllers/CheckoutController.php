@@ -55,6 +55,7 @@ class CheckoutController extends Controller
             'nominal_bayar' => $nominalBayar,
             'kembalian' => $kembalian,
             'pelanggan_id' => $pelanggan->id,
+            'user_id' => auth()->user()->id,
         ]);
 
         foreach ($validated['produk'] as $produk) {
@@ -81,7 +82,8 @@ class CheckoutController extends Controller
 
     public function show($id)
     {
+        $kasir = Penjualan::with('petugas')->findOrFail($id);
         $penjualan = Penjualan::with(['pelanggan', 'detailPenjualan.produk'])->findOrFail($id);
-        return view('checkout.success', compact('penjualan'));
+        return view('checkout.success', compact('penjualan', 'kasir'));
     }
 }
