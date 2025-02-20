@@ -84,10 +84,6 @@
             font-weight: 600;
             font-size: large;
         }
-
-        .name {
-            text-align: right;
-        }
     </style>
 </head>
 
@@ -104,7 +100,6 @@
         <p>Periode: {{ $startDateFormatted }} sampai {{ $endDateFormatted }}</p>
     @else
         <p>Semua Data</p>
-        <p class="name">Dikeluarkan Oleh: {{ Auth::user()->nama_lengkap }}</p>
     @endif
     <table>
         <thead>
@@ -136,8 +131,8 @@
                                     $hargaSatuan = $detail->jumlah_produk > 0 ? ($detail->subtotal / $detail->jumlah_produk) : 0;
                                 @endphp
                                 <tr>
-                                    <td>{{ $no++ }}</td>
                                     @if ($index === 0)
+                                        <td rowspan="{{ $detailCount }}">{{ $no++ }}</td>
                                         <td rowspan="{{ $detailCount }}">
                                             {{ Carbon::parse($transaksi->tanggal_penjualan)->translatedFormat('d F Y') }}
                                         </td>
@@ -159,7 +154,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" style="text-align: right; font-weight: bold;">Total Pendapatan:</td>
+                <td colspan="7" style="text-align: right; font-weight: bold;">Total Pendapatan:</td>
                 <td class="total-transaksi">Rp.{{ number_format($grandTotal, 2, ',', '.') }}</td>
             </tr>
         </tfoot>
@@ -167,7 +162,7 @@
 
     <div class="tanda-tangan">
         <p>Kota Contoh, {{ $tanggal }}</p>
-        <p>Mengetahui,</p>
+        <p>Pencetak,</p>
         <p class="nama">{{ Auth::user()->nama_lengkap }}</p>
     </div>
 </body>
