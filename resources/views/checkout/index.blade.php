@@ -66,16 +66,13 @@
                                     </label>
                                 </div>
                             </div>
-                            <div id="cari_member" class="hidden">
-                                <label for="nama_member" class="block text-sm font-medium text-gray-700">
-                                    Cari Member
-                                </label>
+                            <div id="cari_member">
+                                <label for="nama_member" class="block text-sm font-medium text-gray-700">Cari
+                                    Member</label>
                                 <input type="text" id="nama_member" name="nama_member"
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Masukkan nama pelanggan" oninput="cekMember()">
-                                @error('nama_member')
-                                    <p class="text-red-600 dark:text-red-600 text-sm mt-2">{{ $message }}</p>
-                                @enderror
+                                <ul id="daftar_member" class="border rounded-md mt-2 bg-white shadow-md hidden"></ul>
                                 <p id="status_member" class="text-sm mt-2"></p>
                             </div>
                             <div id="form_pelanggan" class="hidden">
@@ -135,55 +132,49 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const nominalBayarInput = document.getElementById('nominal_bayar');
-        const kembalianText = document.getElementById('kembalian');
-        const jenisPelangganRadios = document.querySelectorAll('input[name="jenis_pelanggan"]');
-        const namaPelangganInput = document.getElementById('nama_pelanggan');
-        const statusMember = document.getElementById('status_member');
-        const namaMemberInput = document.getElementById('nama_member');
+        const elements = {
+            nominalBayarInput: document.getElementById('nominal_bayar'),
+            kembalianText: document.getElementById('kembalian'),
+            jenisPelangganRadios: document.querySelectorAll('input[name="jenis_pelanggan"]'),
+            namaPelangganInput: document.getElementById('nama_pelanggan'),
+            alamatInput: document.getElementById('alamat'),
+            nomorTeleponInput: document.getElementById('nomor_telepon'),
+            statusMember: document.getElementById('status_member'),
+            namaMemberInput: document.getElementById('nama_member'),
+            daftarMember: document.getElementById('daftar_member'),
+            formPelanggan: document.getElementById('form_pelanggan'),
+            cariMember: document.getElementById('cari_member'),
+            nominalBayarWrapper: document.getElementById('nominal_bayar_wrapper')
+        };
 
-        function formatCurrency(amount) {
+        const formatCurrency = (amount) => {
             return 'Rp.' + new Intl.NumberFormat('id-ID', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(amount);
-        }
+        };
 
-        function hitungKembalian() {
-            let totalHarga = parseFloat("{{ collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']) }}");
-            let nominalBayar = nominalBayarInput.value.trim();
+        const hitungKembalian = () => {
+            const totalHarga = parseFloat("{{ collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']) }}");
+            let nominalBayar = elements.nominalBayarInput.value.trim();
 
             if (!/^\d+(\.\d+)?$/.test(nominalBayar)) {
-                kembalianText.textContent = "Rp.0,00";
+                elements.kembalianText.textContent = formatCurrency(0);
                 return;
             }
 
             nominalBayar = parseFloat(nominalBayar);
-            let kembalian = Math.max(nominalBayar - totalHarga, 0);
+            const kembalian = Math.max(nominalBayar - totalHarga, 0);
 
-            kembalianText.textContent = formatCurrency(kembalian);
-        }
+            elements.kembalianText.textContent = formatCurrency(kembalian);
+        };
 
-        window.togglePelangganForm = function () {
-            let jenisPelanggan = document.querySelector('input[name="jenis_pelanggan"]:checked').value;
-            let cariMember = document.getElementById('cari_member');
-            let formPelanggan = document.getElementById('form_pelanggan');
-            let nominalBayarWrapper = document.getElementById('nominal_bayar_wrapper');
+        const togglePelangganForm = () => {
+            const jenisPelanggan = document.querySelector('input[name="jenis_pelanggan"]:checked').value;
 
-            if (jenisPelanggan === 'member') {
-                cariMember.classList.remove('hidden');
-                formPelanggan.classList.add('hidden');
-                nominalBayarWrapper.classList.remove('hidden');
-                resetForm();
-            } else if (jenisPelanggan === 'bukan_member') {
-                cariMember.classList.add('hidden');
-                formPelanggan.classList.add('hidden');
-                nominalBayarWrapper.classList.remove('hidden');
-            } else {
-                cariMember.classList.add('hidden');
-                formPelanggan.classList.remove('hidden');
-                nominalBayarWrapper.classList.remove('hidden');
-            }
+            elements.cariMember.classList.toggle('hidden', jenisPelanggan !== 'member');
+            elements.formPelanggan.classList.toggle('hidden', jenisPelanggan !== 'member_baru');
+            elements.nominalBayarWrapper.classList.toggle('hidden', false);
 
             if (jenisPelanggan === 'member_baru') {
                 resetForm();
@@ -191,87 +182,75 @@
             }
         };
 
-        window.cekMember = function () {
-            let namaPelanggan = namaMemberInput.value.trim();
-            let statusMember = document.getElementById('status_member');
-            let formPelanggan = document.getElementById('form_pelanggan');
-            let jenisPelangganMember = document.querySelector('input[name="jenis_pelanggan"][value="member"]');
+        const toggleFormVisibility = (show) => {
+            elements.formPelanggan.classList.toggle('hidden', !show);
+        };
+
+        const setFormReadOnly = (isReadOnly) => {
+            [elements.namaPelangganInput, elements.alamatInput, elements.nomorTeleponInput].forEach(input => {
+                input.toggleAttribute('readonly', isReadOnly);
+            });
+        };
+
+        const resetForm = () => {
+            elements.namaPelangganInput.value = "";
+            elements.alamatInput.value = "";
+            elements.nomorTeleponInput.value = "";
+        };
+
+        const cekMember = () => {
+            const namaPelanggan = elements.namaMemberInput.value.trim();
 
             if (namaPelanggan.length < 3) {
-                statusMember.textContent = "";
-                formPelanggan.classList.add('hidden');
+                elements.daftarMember.classList.add('hidden');
+                elements.daftarMember.innerHTML = "";
+                toggleFormVisibility(false);
                 return;
             }
 
             fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?nama_pelanggan=${encodeURIComponent(namaPelanggan)}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.found) {
-                        statusMember.textContent = "Member ditemukan: " + data.nama;
+                    elements.daftarMember.innerHTML = "";
 
-                        jenisPelangganMember.checked = true;
+                    if (data.length > 0) {
+                        elements.daftarMember.classList.remove('hidden');
+                        data.forEach(member => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = member.nama;
+                            listItem.classList.add('cursor-pointer', 'p-2', 'hover:bg-gray-200', 'border-b');
 
-                        document.getElementById('nama_pelanggan').value = data.nama;
-                        document.getElementById('alamat').value = data.alamat;
-                        document.getElementById('nomor_telepon').value = data.nomor_telepon;
+                            listItem.addEventListener('click', () => {
+                                elements.namaMemberInput.value = member.nama;
+                                elements.daftarMember.classList.add('hidden');
+                                elements.statusMember.textContent = "Member ditemukan: " + member.nama;
 
-                        formPelanggan.classList.remove('hidden');
-                        setFormReadOnly(true);
+                                elements.namaPelangganInput.value = member.nama;
+                                elements.alamatInput.value = member.alamat;
+                                elements.nomorTeleponInput.value = member.nomor_telepon;
+
+                                toggleFormVisibility(true);
+                                setFormReadOnly(true);
+                            });
+
+                            elements.daftarMember.appendChild(listItem);
+                        });
                     } else {
-                        statusMember.textContent = "Member tidak ditemukan.";
-                        resetForm();
-                        setFormReadOnly(false);
-                        formPelanggan.classList.add('hidden');
+                        elements.daftarMember.classList.add('hidden');
+                        elements.statusMember.textContent = "Member tidak ditemukan.";
+                        toggleFormVisibility(false);
                     }
                 })
                 .catch(() => {
-                    statusMember.textContent = "Terjadi kesalahan saat mencari member.";
-                    formPelanggan.classList.add('hidden');
+                    elements.daftarMember.classList.add('hidden');
+                    elements.statusMember.textContent = "Terjadi kesalahan saat mencari member.";
+                    toggleFormVisibility(false);
                 });
         };
 
-        function resetForm() {
-            document.getElementById('nama_pelanggan').value = "";
-            document.getElementById('alamat').value = "";
-            document.getElementById('nomor_telepon').value = "";
-        }
-
-        function setFormReadOnly(isReadOnly) {
-            ['nama_pelanggan', 'alamat', 'nomor_telepon'].forEach(id => {
-                let field = document.getElementById(id);
-                if (isReadOnly) {
-                    field.setAttribute('readonly', true);
-                } else {
-                    field.removeAttribute('readonly');
-                }
-            });
-        }
-
-        namaMemberInput.addEventListener('input', function () {
-            let namaPelanggan = namaMemberInput.value.trim();
-
-            if (namaPelanggan.length < 3) {
-                namaMemberList.innerHTML = '';
-                return;
-            }
-
-            fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?nama_pelanggan=${encodeURIComponent(namaPelanggan)}`)
-                .then(response => response.json())
-                .then(data => {
-                    namaMemberList.innerHTML = '';
-                    data.forEach(member => {
-                        let option = document.createElement('option');
-                        option.value = member.nama;
-                        namaMemberList.appendChild(option);
-                    });
-                })
-                .catch(() => {
-                    namaMemberList.innerHTML = '';
-                });
-        });
-
-        nominalBayarInput.addEventListener('input', hitungKembalian);
-        jenisPelangganRadios.forEach(radio => radio.addEventListener('change', togglePelangganForm));
+        elements.namaMemberInput.addEventListener('input', cekMember);
+        elements.nominalBayarInput.addEventListener('input', hitungKembalian);
+        elements.jenisPelangganRadios.forEach(radio => radio.addEventListener('change', togglePelangganForm));
 
         togglePelangganForm();
     });

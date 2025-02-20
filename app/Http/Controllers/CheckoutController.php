@@ -130,24 +130,24 @@ class CheckoutController extends Controller
 
     public function cekMember(Request $request)
     {
-        $namaPelanggan = $request->query('nama_pelanggan');
+        try {
+            $namaPelanggan = $request->query('nama_pelanggan');
 
-        if (!$namaPelanggan) {
-            return response()->json(['found' => false, 'message' => 'Nama pelanggan tidak boleh kosong.'], 400);
+            if (!$namaPelanggan) {
+                return response()->json(['error' => 'Nama pelanggan diperlukan'], 400);
+            }
+
+            $members = Pelanggan::where('nama_pelanggan', 'LIKE', "%{$namaPelanggan}%")
+                ->select('id', 'nama_pelanggan as nama', 'alamat', 'nomor_telepon')
+                ->get();
+
+            if ($members->isEmpty()) {
+                return response()->json([], 200);
+            }
+
+            return response()->json($members);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan pada server'], 500);
         }
-
-        $member = Pelanggan::where('nama_pelanggan', 'LIKE', "%{$namaPelanggan}%")->first();
-
-        if ($member) {
-            return response()->json([
-                'found' => true,
-                'nama' => $member->nama_pelanggan,
-                'username' => $member->username,
-                'alamat' => $member->alamat,
-                'nomor_telepon' => $member->nomor_telepon
-            ]);
-        }
-
-        return response()->json(['found' => false, 'message' => 'Member tidak ditemukan.']);
     }
 }
