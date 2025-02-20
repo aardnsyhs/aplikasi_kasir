@@ -86,6 +86,13 @@
                                         placeholder="Masukkan nama Anda">
                                 </div>
                                 <div>
+                                    <label for="username"
+                                        class="block text-sm font-medium text-gray-700">Username</label>
+                                    <input type="text" id="username" name="username"
+                                        class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm bg-gray-200"
+                                        readonly>
+                                </div>
+                                <div>
                                     <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
                                     <textarea name="alamat" id="alamat" cols="30" rows="3"
                                         class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
@@ -98,7 +105,7 @@
                                         placeholder="08xxxxxxxxxx">
                                 </div>
                             </div>
-                            <div>
+                            <div id="nominal_bayar_wrapper">
                                 <label for="nominal_bayar" class="block text-sm font-medium text-gray-700">Nominal
                                     Bayar</label>
                                 <input type="number" id="nominal_bayar" name="nominal_bayar"
@@ -133,10 +140,13 @@
 </x-app-layout>
 
 <script>
-    document.getElementById('nominal_bayar').addEventListener('input', function () {
-        let totalHarga = parseFloat("{{ collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']) }}");
-        let nominalBayar = parseFloat(this.value);
-        let kembalian = nominalBayar - totalHarga;
+    document.addEventListener('DOMContentLoaded', function () {
+        const nominalBayarInput = document.getElementById('nominal_bayar');
+        const kembalianText = document.getElementById('kembalian');
+        const jenisPelangganRadios = document.querySelectorAll('input[name="jenis_pelanggan"]');
+        const namaPelangganInput = document.getElementById('nama_pelanggan');
+        const usernameInput = document.getElementById('username');
+        const statusMember = document.getElementById('status_member');
 
         function formatCurrency(amount) {
             return 'Rp.' + new Intl.NumberFormat('id-ID', {
@@ -145,67 +155,123 @@
             }).format(amount);
         }
 
-        document.getElementById('kembalian').textContent = kembalian >= 0 ? formatCurrency(kembalian) : formatCurrency(0);
-    })
+        function hitungKembalian() {
+            let totalHarga = parseFloat("{{ collect($cart)->sum(fn($item) => $item['harga'] * $item['quantity']) }}");
+            let nominalBayar = nominalBayarInput.value.trim();
 
-    function togglePelangganForm() {
-        let jenisPelanggan = document.querySelector('input[name="jenis_pelanggan"]:checked').value;
+            if (!/^\d+(\.\d+)?$/.test(nominalBayar)) {
+                kembalianText.textContent = "Rp.0,00";
+                return;
+            }
 
-        if (jenisPelanggan === 'bukan_member') {
-            document.getElementById('cari_member').classList.add('hidden');
-            document.getElementById('form_pelanggan').classList.add('hidden');
-        } else if (jenisPelanggan === 'member_baru') {
-            document.getElementById('cari_member').classList.add('hidden');
-            document.getElementById('form_pelanggan').classList.remove('hidden');
-        } else if (jenisPelanggan === 'member') {
-            document.getElementById('cari_member').classList.remove('hidden');
-            document.getElementById('form_pelanggan').classList.add('hidden');
+            nominalBayar = parseFloat(nominalBayar);
+            let kembalian = Math.max(nominalBayar - totalHarga, 0);
+
+            kembalianText.textContent = formatCurrency(kembalian);
         }
-    }
 
-    function cekMember() {
-        let username = document.getElementById('username_member').value;
+        window.togglePelangganForm = function () {
+            let jenisPelanggan = document.querySelector('input[name="jenis_pelanggan"]:checked').value;
+            let cariMember = document.getElementById('cari_member');
+            let formPelanggan = document.getElementById('form_pelanggan');
+            let nominalBayarWrapper = document.getElementById('nominal_bayar_wrapper');
 
-        if (username.length > 3) {
+            if (jenisPelanggan === 'member') {
+                cariMember.classList.remove('hidden');
+                formPelanggan.classList.add('hidden');
+                nominalBayarWrapper.classList.remove('hidden');
+                resetForm();
+            } else if (jenisPelanggan === 'bukan_member') {
+                cariMember.classList.add('hidden');
+                formPelanggan.classList.add('hidden');
+                nominalBayarWrapper.classList.remove('hidden');
+            } else {
+                cariMember.classList.add('hidden');
+                formPelanggan.classList.remove('hidden');
+                nominalBayarWrapper.classList.remove('hidden');
+            }
+
+            if (jenisPelanggan === 'member_baru') {
+                resetForm();
+                setFormReadOnly(false);
+            }
+        };
+
+        window.cekMember = function () {
+            let username = document.getElementById('username_member').value.trim();
+            let statusMember = document.getElementById('status_member');
+            let formPelanggan = document.getElementById('form_pelanggan');
+            let jenisPelangganMember = document.querySelector('input[name="jenis_pelanggan"][value="member"]');
+
+            if (username.length < 3) {
+                statusMember.textContent = "";
+                formPelanggan.classList.add('hidden');
+                return;
+            }
+
             fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?username=${username}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.found) {
-                        document.getElementById('status_member').textContent = "Member ditemukan: " + data.nama;
+                        statusMember.textContent = "Member ditemukan: " + data.nama;
+
+                        jenisPelangganMember.checked = true;
 
                         document.getElementById('nama_pelanggan').value = data.nama;
+                        document.getElementById('username').value = username;
                         document.getElementById('alamat').value = data.alamat;
                         document.getElementById('nomor_telepon').value = data.nomor_telepon;
 
-                        document.getElementById('form_pelanggan').classList.remove('hidden');
-
-                        document.getElementById('nama_pelanggan').setAttribute('readonly', true);
-                        document.getElementById('alamat').setAttribute('readonly', true);
-                        document.getElementById('nomor_telepon').setAttribute('readonly', true);
+                        formPelanggan.classList.remove('hidden');
+                        setFormReadOnly(true);
                     } else {
-                        document.getElementById('status_member').textContent = "Member tidak ditemukan.";
-
-                        document.getElementById('nama_pelanggan').value = "";
-                        document.getElementById('alamat').value = "";
-                        document.getElementById('nomor_telepon').value = "";
-
-                        document.getElementById('form_pelanggan').classList.add('hidden');
-
-                        document.getElementById('nama_pelanggan').removeAttribute('readonly');
-                        document.getElementById('alamat').removeAttribute('readonly');
-                        document.getElementById('nomor_telepon').removeAttribute('readonly');
+                        statusMember.textContent = "Member tidak ditemukan.";
+                        resetForm();
+                        setFormReadOnly(false);
+                        formPelanggan.classList.add('hidden');
                     }
                 })
                 .catch(() => {
-                    document.getElementById('status_member').textContent = "Terjadi kesalahan saat mencari member.";
+                    statusMember.textContent = "Terjadi kesalahan saat mencari member.";
+                    formPelanggan.classList.add('hidden');
                 });
-        } else {
-            document.getElementById('status_member').textContent = "";
-            document.getElementById('form_pelanggan').classList.add('hidden');
+        };
 
-            document.getElementById('nama_pelanggan').removeAttribute('readonly');
-            document.getElementById('alamat').removeAttribute('readonly');
-            document.getElementById('nomor_telepon').removeAttribute('readonly');
+        function resetForm() {
+            document.getElementById('nama_pelanggan').value = "";
+            document.getElementById('alamat').value = "";
+            document.getElementById('nomor_telepon').value = "";
         }
-    }
+
+        function setFormReadOnly(isReadOnly) {
+            ['nama_pelanggan', 'alamat', 'nomor_telepon'].forEach(id => {
+                let field = document.getElementById(id);
+                if (isReadOnly) {
+                    field.setAttribute('readonly', true);
+                } else {
+                    field.removeAttribute('readonly');
+                }
+            });
+        }
+
+        function generateUsername(nama) {
+            return nama.toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9\-]/g, '')
+                .substring(0, 20);
+        }
+
+        namaPelangganInput.addEventListener('input', function () {
+            if (document.querySelector('input[name="jenis_pelanggan"]:checked').value === 'member_baru') {
+                usernameInput.value = generateUsername(namaPelangganInput.value);
+            }
+        });
+
+        nominalBayarInput.addEventListener('input', hitungKembalian);
+        jenisPelangganRadios.forEach(radio => radio.addEventListener('change', togglePelangganForm));
+        usernameInput.addEventListener('input', cekMember);
+
+        togglePelangganForm();
+    });
 </script>

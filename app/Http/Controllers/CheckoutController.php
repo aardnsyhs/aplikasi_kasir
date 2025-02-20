@@ -31,6 +31,7 @@ class CheckoutController extends Controller
             'nama_pelanggan' => 'nullable|required_if:jenis_pelanggan,member_baru|string|max:255',
             'alamat' => 'nullable|required_if:jenis_pelanggan,member_baru|string',
             'nomor_telepon' => 'nullable|required_if:jenis_pelanggan,member_baru|string|regex:/^08[0-9]{8,11}$/',
+            'username' => 'nullable|string',
             'username_member' => 'nullable|required_if:jenis_pelanggan,member|string|exists:pelanggan,username',
             'produk' => 'required|array',
             'produk.*.produk_id' => 'required|exists:produk,id',
@@ -49,37 +50,40 @@ class CheckoutController extends Controller
 
         $pelangganId = null;
 
-        if ($validated['jenis_pelanggan'] === 'member_baru') {
-            $pelanggan = Pelanggan::create([
-                'nama_pelanggan' => $validated['nama_pelanggan'],
-                'alamat' => $validated['alamat'],
-                'nomor_telepon' => $validated['nomor_telepon'],
-                'username' => Str::slug($validated['nama_pelanggan']),
-            ]);
-            $pelangganId = $pelanggan->id;
-        } elseif ($validated['jenis_pelanggan'] === 'member') {
-            $pelanggan = Pelanggan::where('username', $validated['username_member'])->first();
-            if (!$pelanggan) {
-                return back()->withErrors(['username_member' => 'Username pelanggan tidak ditemukan!']);
-            }
-            $pelangganId = $pelanggan->id;
-        }
-
         DB::beginTransaction();
         try {
-            $penjualanData = [
+            if ($validated['jenis_pelanggan'] === 'member_baru') {
+                $validated['username'] = Str::slug($validated['nama_pelanggan']);
+
+                $pelanggan = Pelanggan::create([
+                    'nama_pelanggan' => $validated['nama_pelanggan'],
+                    'alamat' => $validated['alamat'],
+                    'nomor_telepon' => $validated['nomor_telepon'],
+                    'username' => $validated['username'],
+                    'jenis_pelanggan' => 'member_baru',
+                ]);
+                $pelangganId = $pelanggan->id;
+            } elseif ($validated['jenis_pelanggan'] === 'member') {
+                $pelanggan = Pelanggan::where('username', $validated['username_member'])->first();
+                if (!$pelanggan) {
+                    return back()->withErrors(['username_member' => 'Username pelanggan tidak ditemukan!']);
+                }
+
+                $pelanggan->update([
+                    'jenis_pelanggan' => 'member',
+                ]);
+
+                $pelangganId = $pelanggan->id;
+            }
+
+            $penjualan = Penjualan::create([
                 'tanggal_penjualan' => Carbon::now(),
                 'total_harga' => $totalHarga,
                 'nominal_bayar' => $nominalBayar,
                 'kembalian' => $kembalian,
                 'user_id' => auth()->user()->id,
-            ];
-
-            if ($pelangganId) {
-                $penjualanData['pelanggan_id'] = $pelangganId;
-            }
-
-            $penjualan = Penjualan::create($penjualanData);
+                'pelanggan_id' => $pelangganId,
+            ]);
 
             foreach ($validated['produk'] as $produk) {
                 $produkModel = Produk::find($produk['produk_id']);
@@ -104,7 +108,8 @@ class CheckoutController extends Controller
 
             session()->forget('cart');
 
-            return redirect()->route('checkout.success', ['id' => $penjualan->id]);
+            return redirect()->route('checkout.success', ['id' => $penjualan->id])
+                ->with('success', 'Transaksi berhasil disimpan!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Terjadi kesalahan saat memproses transaksi!']);

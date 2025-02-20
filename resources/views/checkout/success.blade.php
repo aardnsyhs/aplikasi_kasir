@@ -8,17 +8,18 @@
             <p class="text-sm text-center text-gray-700">Terima kasih telah berbelanja.</p>
             <hr class="my-2 border-dashed border-gray-400">
 
-            <div class="text-sm font-mono">
-                <div class="flex justify-between">
+            <div class="text-sm font-mono flex justify-between">
+                <div class="flex flex-col">
                     @if ($penjualan->pelanggan)
                         <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
+                        <p><strong>Username:</strong> {{ $penjualan->pelanggan->username }}</p>
+                        <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
+                        <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
                     @endif
+                </div>
+                <div class="text-right">
                     <p><strong>Nama Kasir:</strong> {{ $kasir->petugas->nama_lengkap }}</p>
                 </div>
-                @if ($penjualan->pelanggan)
-                    <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
-                    <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
-                @endif
             </div>
 
             <hr class="my-2 border-dashed border-gray-400">

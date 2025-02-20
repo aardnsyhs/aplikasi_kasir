@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('alamat');
             $table->string('nomor_telepon');
             $table->string('username')->unique();
-            $table->enum('jenis_pelanggan', ['bukan_member', 'member_baru', 'member'])->default('bukan_member');
+            $table->enum('jenis_pelanggan', ['bukan_member', 'member_baru', 'member'])->default('member_baru');
             $table->timestamps();
         });
     }
