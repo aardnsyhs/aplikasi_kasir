@@ -42,7 +42,7 @@ class DashboardController extends Controller
                 return $query->whereBetween('tanggal_penjualan', [$startDate, $endDate]);
             })
             ->orderBy('tanggal_penjualan', 'desc')
-            ->paginate(10);
+            ->paginate(perPage: 5);
 
         return view('dashboard', [
             'labels' => $dataPenjualan->pluck('tanggal')->toArray(),
