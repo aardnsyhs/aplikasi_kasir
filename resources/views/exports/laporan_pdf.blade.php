@@ -78,28 +78,40 @@
             margin-top: 70px;
             font-weight: bold;
         }
+
+        .title {
+            text-align: center;
+            font-weight: 600;
+            font-size: large;
+        }
+
+        .name {
+            text-align: right;
+        }
     </style>
 </head>
 
 <body>
     <div class="header-laporan">
-        <h1>Laporan Penjualan</h1>
         <p>Toko ABC</p>
         <p>Jl. Contoh No. 123, Kota Contoh</p>
         <p>Telepon: (021) 123-4567</p>
     </div>
+    <hr>
+    <p class="title">Laporan Penjualan</p>
 
     @if ($startDateFormatted && $endDateFormatted)
         <p>Periode: {{ $startDateFormatted }} sampai {{ $endDateFormatted }}</p>
     @else
         <p>Semua Data</p>
+        <p class="name">Dikeluarkan Oleh: {{ Auth::user()->nama_lengkap }}</p>
     @endif
-
     <table>
         <thead>
             <tr>
-                <th>Nama Pelanggan</th>
+                <th>No</th>
                 <th>Tanggal Penjualan</th>
+                <th>Nama Pelanggan</th>
                 <th>Nama Produk</th>
                 <th>Jumlah</th>
                 <th>Harga Satuan</th>
@@ -110,6 +122,7 @@
         <tbody>
             @php
                 $totalTransaksiDisplayed = [];
+                $no = 1;
             @endphp
             @foreach ($data as $transaksi)
                         @php
@@ -123,12 +136,13 @@
                                     $hargaSatuan = $detail->jumlah_produk > 0 ? ($detail->subtotal / $detail->jumlah_produk) : 0;
                                 @endphp
                                 <tr>
+                                    <td>{{ $no++ }}</td>
                                     @if ($index === 0)
                                         <td rowspan="{{ $detailCount }}">
-                                            {{ $transaksi->pelanggan ? $transaksi->pelanggan->nama_pelanggan : 'Tidak Diketahui' }}
+                                            {{ Carbon::parse($transaksi->tanggal_penjualan)->translatedFormat('d F Y') }}
                                         </td>
                                         <td rowspan="{{ $detailCount }}">
-                                            {{ Carbon::parse($transaksi->tanggal_penjualan)->translatedFormat('d F Y') }}
+                                            {{ $transaksi->pelanggan ? $transaksi->pelanggan->nama_pelanggan : 'Tidak Diketahui' }}
                                         </td>
                                     @endif
                                     <td>{{ $detail->produk?->nama_produk ?? $detail->nama_produk . " (Tidak tersedia)" }}</td>
