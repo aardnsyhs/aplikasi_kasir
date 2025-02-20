@@ -1,3 +1,13 @@
+<style>
+    @page {
+        size: auto;
+        margin-top: 0mm;
+        margin-bottom: 0mm;
+        width: auto;
+        height: auto;
+    }
+</style>
+
 <x-app-layout>
     <section class="dark:bg-gray-900 p-3 sm:p-5 flex justify-center">
         <div id="struk-belanja" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg border border-gray-300">
