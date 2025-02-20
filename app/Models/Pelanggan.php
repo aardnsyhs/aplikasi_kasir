@@ -20,7 +20,6 @@ class Pelanggan extends Model
         'nama_pelanggan',
         'alamat',
         'nomor_telepon',
-        'username',
         'jenis_pelanggan'
     ];
 

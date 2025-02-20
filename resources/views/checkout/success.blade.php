@@ -22,7 +22,6 @@
                 <div class="flex flex-col">
                     @if ($penjualan->pelanggan)
                         <p><strong>Nama:</strong> {{ $penjualan->pelanggan->nama_pelanggan }}</p>
-                        <p><strong>Username:</strong> {{ $penjualan->pelanggan->username }}</p>
                         <p><strong>Alamat:</strong> {{ $penjualan->pelanggan->alamat }}</p>
                         <p><strong>Telepon:</strong> {{ $penjualan->pelanggan->nomor_telepon }}</p>
                     @endif

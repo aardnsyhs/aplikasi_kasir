@@ -67,12 +67,13 @@
                                 </div>
                             </div>
                             <div id="cari_member" class="hidden">
-                                <label for="username_member" class="block text-sm font-medium text-gray-700">Cari
-                                    Member</label>
-                                <input type="text" id="username_member" name="username_member"
+                                <label for="nama_member" class="block text-sm font-medium text-gray-700">
+                                    Cari Member
+                                </label>
+                                <input type="text" id="nama_member" name="nama_member"
                                     class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Masukkan username member" oninput="cekMember()">
-                                @error('username_member')
+                                    placeholder="Masukkan nama pelanggan" oninput="cekMember()">
+                                @error('nama_member')
                                     <p class="text-red-600 dark:text-red-600 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <p id="status_member" class="text-sm mt-2"></p>
@@ -84,13 +85,6 @@
                                     <input type="text" id="nama_pelanggan" name="nama_pelanggan"
                                         class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Masukkan nama Anda">
-                                </div>
-                                <div>
-                                    <label for="username"
-                                        class="block text-sm font-medium text-gray-700">Username</label>
-                                    <input type="text" id="username" name="username"
-                                        class="w-full rounded-md border-gray-300 px-4 py-3 text-sm shadow-sm bg-gray-200"
-                                        readonly>
                                 </div>
                                 <div>
                                     <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
@@ -145,8 +139,8 @@
         const kembalianText = document.getElementById('kembalian');
         const jenisPelangganRadios = document.querySelectorAll('input[name="jenis_pelanggan"]');
         const namaPelangganInput = document.getElementById('nama_pelanggan');
-        const usernameInput = document.getElementById('username');
         const statusMember = document.getElementById('status_member');
+        const namaMemberInput = document.getElementById('nama_member');
 
         function formatCurrency(amount) {
             return 'Rp.' + new Intl.NumberFormat('id-ID', {
@@ -198,18 +192,18 @@
         };
 
         window.cekMember = function () {
-            let username = document.getElementById('username_member').value.trim();
+            let namaPelanggan = namaMemberInput.value.trim();
             let statusMember = document.getElementById('status_member');
             let formPelanggan = document.getElementById('form_pelanggan');
             let jenisPelangganMember = document.querySelector('input[name="jenis_pelanggan"][value="member"]');
 
-            if (username.length < 3) {
+            if (namaPelanggan.length < 3) {
                 statusMember.textContent = "";
                 formPelanggan.classList.add('hidden');
                 return;
             }
 
-            fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?username=${username}`)
+            fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?nama_pelanggan=${encodeURIComponent(namaPelanggan)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.found) {
@@ -218,7 +212,6 @@
                         jenisPelangganMember.checked = true;
 
                         document.getElementById('nama_pelanggan').value = data.nama;
-                        document.getElementById('username').value = username;
                         document.getElementById('alamat').value = data.alamat;
                         document.getElementById('nomor_telepon').value = data.nomor_telepon;
 
@@ -254,23 +247,31 @@
             });
         }
 
-        function generateUsername(nama) {
-            return nama.toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^a-z0-9\-]/g, '')
-                .substring(0, 20);
-        }
+        namaMemberInput.addEventListener('input', function () {
+            let namaPelanggan = namaMemberInput.value.trim();
 
-        namaPelangganInput.addEventListener('input', function () {
-            if (document.querySelector('input[name="jenis_pelanggan"]:checked').value === 'member_baru') {
-                usernameInput.value = generateUsername(namaPelangganInput.value);
+            if (namaPelanggan.length < 3) {
+                namaMemberList.innerHTML = '';
+                return;
             }
+
+            fetch(`${window.location.pathname.split('/checkout')[0]}/cek-member?nama_pelanggan=${encodeURIComponent(namaPelanggan)}`)
+                .then(response => response.json())
+                .then(data => {
+                    namaMemberList.innerHTML = '';
+                    data.forEach(member => {
+                        let option = document.createElement('option');
+                        option.value = member.nama;
+                        namaMemberList.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    namaMemberList.innerHTML = '';
+                });
         });
 
         nominalBayarInput.addEventListener('input', hitungKembalian);
         jenisPelangganRadios.forEach(radio => radio.addEventListener('change', togglePelangganForm));
-        usernameInput.addEventListener('input', cekMember);
 
         togglePelangganForm();
     });

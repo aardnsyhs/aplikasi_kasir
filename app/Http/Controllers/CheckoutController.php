@@ -28,11 +28,19 @@ class CheckoutController extends Controller
     {
         $validated = $request->validate([
             'jenis_pelanggan' => 'required|in:bukan_member,member_baru,member',
-            'nama_pelanggan' => 'nullable|required_if:jenis_pelanggan,member_baru|string|max:255',
+            'nama_pelanggan' => [
+                'nullable',
+                'required_if:jenis_pelanggan,member_baru,member',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->jenis_pelanggan === 'member' && !Pelanggan::where('nama_pelanggan', $value)->exists()) {
+                        $fail('Nama pelanggan tidak ditemukan.');
+                    }
+                }
+            ],
             'alamat' => 'nullable|required_if:jenis_pelanggan,member_baru|string',
             'nomor_telepon' => 'nullable|required_if:jenis_pelanggan,member_baru|string|regex:/^08[0-9]{8,11}$/',
-            'username' => 'nullable|string',
-            'username_member' => 'nullable|required_if:jenis_pelanggan,member|string|exists:pelanggan,username',
             'produk' => 'required|array',
             'produk.*.produk_id' => 'required|exists:produk,id',
             'produk.*.quantity' => 'required|integer|min:1',
@@ -53,20 +61,17 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             if ($validated['jenis_pelanggan'] === 'member_baru') {
-                $validated['username'] = Str::slug($validated['nama_pelanggan']);
-
                 $pelanggan = Pelanggan::create([
                     'nama_pelanggan' => $validated['nama_pelanggan'],
                     'alamat' => $validated['alamat'],
                     'nomor_telepon' => $validated['nomor_telepon'],
-                    'username' => $validated['username'],
                     'jenis_pelanggan' => 'member_baru',
                 ]);
                 $pelangganId = $pelanggan->id;
             } elseif ($validated['jenis_pelanggan'] === 'member') {
-                $pelanggan = Pelanggan::where('username', $validated['username_member'])->first();
+                $pelanggan = Pelanggan::where('nama_pelanggan', $validated['nama_pelanggan'])->first();
                 if (!$pelanggan) {
-                    return back()->withErrors(['username_member' => 'Username pelanggan tidak ditemukan!']);
+                    return back()->withErrors(['nama_pelanggan' => 'Nama pelanggan tidak ditemukan!']);
                 }
 
                 $pelanggan->update([
@@ -125,18 +130,19 @@ class CheckoutController extends Controller
 
     public function cekMember(Request $request)
     {
-        $username = $request->query('username');
+        $namaPelanggan = $request->query('nama_pelanggan');
 
-        if (!$username) {
-            return response()->json(['found' => false, 'message' => 'Username tidak boleh kosong.'], 400);
+        if (!$namaPelanggan) {
+            return response()->json(['found' => false, 'message' => 'Nama pelanggan tidak boleh kosong.'], 400);
         }
 
-        $member = Pelanggan::where('username', $username)->first();
+        $member = Pelanggan::where('nama_pelanggan', 'LIKE', "%{$namaPelanggan}%")->first();
 
         if ($member) {
             return response()->json([
                 'found' => true,
                 'nama' => $member->nama_pelanggan,
+                'username' => $member->username,
                 'alamat' => $member->alamat,
                 'nomor_telepon' => $member->nomor_telepon
             ]);
