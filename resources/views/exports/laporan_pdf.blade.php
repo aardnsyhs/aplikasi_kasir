@@ -60,7 +60,6 @@
 
         .header-laporan p {
             margin: 5px 0;
-            font-size: 16px;
         }
 
         .tanda-tangan {
@@ -82,16 +81,27 @@
         .title {
             text-align: center;
             font-weight: 600;
-            font-size: large;
+            font-size: x-large;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .header-row p {
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
     <div class="header-laporan">
-        <p>Toko ABC</p>
-        <p>Jl. Contoh No. 123, Kota Contoh</p>
-        <p>Telepon: (021) 123-4567</p>
+        <p style="font-size: x-large; font-weight: 600;">Toko ABC</p>
+        <p style="font-size: 12px;">Jl. Contoh No. 123, Kota Contoh</p>
+        <p style="font-size: 12px;">Telepon: (021) 123-4567</p>
     </div>
     <hr>
     <p class="title">Laporan Penjualan</p>
@@ -99,7 +109,10 @@
     @if ($startDateFormatted && $endDateFormatted)
         <p>Periode: {{ $startDateFormatted }} sampai {{ $endDateFormatted }}</p>
     @else
-        <p>Semua Data</p>
+        <div class="header-row">
+            <p>Semua Data</p>
+            <p>Dicetak Oleh: {{ Auth::user()->nama_lengkap }}</p>
+        </div>
     @endif
     <table>
         <thead>
