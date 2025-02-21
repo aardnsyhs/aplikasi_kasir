@@ -14,6 +14,20 @@ Sebelum memulai, pastikan Anda memiliki:
 
 -   **XAMPP** (atau server lokal dengan PHP dan MySQL)
 
+-   **Visual Studio Code**
+
+
+## Library 
+
+- **TailwindCSS (Terbaru)**
+
+- **Flowbite(Terbaru)**
+
+- **DOM PDF**
+
+- **MaatWebsite/Excel**
+
+
 ## Instalasi
 
 Ikuti langkah-langkah berikut untuk menginstal aplikasi:
@@ -37,10 +51,17 @@ extension=gd
 extension=zip
 ```
 
--   Buka Xampp lalu klik admin pada menu mysql setelah itu buat database dengan nama sesuai di **.env**
+-   Buka Xampp lalu klik admin pada menu mysql setelah itu buat database dengan nama sesuai di **.env** copykan dari **.env.example**
+```bash
+cp .env.example .env
+```
 
 ```bash
 DB_DATABASE=kasir
+```
+-   Generate Key Laravel menggunakan
+```bash
+php artisan key:generate
 ```
 
 -   Install dependencies dengan Composer dan NPM:
@@ -49,6 +70,9 @@ DB_DATABASE=kasir
 composer install
 npm install
 ```
+
+- Jika Memiliki File Database, Lompati Migrasi database dan seeding data.
+Langsung saja import database yang berada dalam folder 
 
 -   Migrasi database dan seeding data:
 
@@ -93,7 +117,3 @@ Setelah berhasil login, Anda akan diarahkan ke halaman utama aplikasi kasir.
 -   Laporan: Menampilkan laporan transaksi dan produk yang terjual.
 
 -   Login Sistem: Pengguna dapat login untuk mengakses aplikasi dan melakukan transaksi.
-
-## Lisensi
-
-Proyek ini dibuat untuk keperluan pembelajaran dan ujian komprehensif (Ujikom).
