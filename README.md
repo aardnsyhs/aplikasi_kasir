@@ -1,60 +1,99 @@
-### Setup Tambahan buat Export ke Excel & PDF
+# Aplikasi Kasir Ujikom
 
-Biar Laravel bisa jalan dengan lancar, pastikan beberapa ekstensi PHP udah aktif. Buka file berikut:
-```
-xampp/php/php.ini
+Aplikasi Kasir ini adalah aplikasi yang digunakan untuk ujian komprehensif (Ujikom) untuk tujuan pembelajaran dan evaluasi. Aplikasi ini memungkinkan pengguna untuk melakukan transaksi penjualan produk, mengelola data produk, dan memproses pembayaran.
+
+## Persyaratan
+
+Sebelum memulai, pastikan Anda memiliki:
+
+-   **PHP** (Disarankan versi terbaru)
+
+-   **Composer**
+
+-   **Node.js** dan **NPM**
+
+-   **XAMPP** (atau server lokal dengan PHP dan MySQL)
+
+## Instalasi
+
+Ikuti langkah-langkah berikut untuk menginstal aplikasi:
+
+-   Clone repositori ini ke komputer Anda:
+
+```bash
+git clone https://github.com/aardnsyhs/aplikasi_kasir.git
 ```
 
-Terus cari dan hapus tanda `;` di depan baris berikut:
-```ini
+-   Masuk ke direktori proyek:
+
+```bash
+cd aplikasi_kasir
+```
+
+-   Buka file php.ini pada XAMPP dan aktifkan ekstensi berikut dengan menghapus tanda titik koma ( ; ) :
+
+```bash
 extension=gd
 extension=zip
 ```
-Setelah itu, restart Apache lewat XAMPP Control Panel.
 
-### Langkah-langkah untuk Login sebagai Admin
+-   Buka Xampp lalu klik admin pada menu mysql setelah itu buat database dengan nama sesuai di **.env**
 
-#### 1. Install Dependency
-Jalankan perintah ini buat install semua dependency Laravel:
+```bash
+DB_DATABASE=kasir
+```
+
+-   Install dependencies dengan Composer dan NPM:
+
 ```bash
 composer install
-```
-```bash
 npm install
 ```
 
-#### 2. Konfigurasi Environment
+-   Migrasi database dan seeding data:
 
-Copy file `.env.example`, terus ubah namanya jadi `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Lalu, generate application key:
-```bash
-php artisan key:generate
-```
-
-#### 3. Jalankan Migration dan Seed Database
-
-Buat generate tabel dan isi data awalnya, jalankan perintah ini:
 ```bash
 php artisan migrate --seed
 ```
- Setelah itu, login menggunakan kredensial berikut:
--  **Email**: `admin@example.com`
 
--  **Password**: `admin`
+-   Buat symbolic link untuk storage:
 
-#### 4. Jalankan Server Laravel
-
-Jalankan server bawaan Laravel dan jalankan untuk load TailwindCSS nya:
 ```bash
-php artisan serve
+php artisan storage:link
 ```
+
+-   Jalankan Vite untuk membangun asset frontend:
+
 ```bash
 npm run dev
 ```
 
-Sekarang, buka aplikasi di browser lewat `http://127.0.0.1:8000`
+-   Jalankan server Laravel:
+
+```bash
+php artisan serve
+```
+
+## Login
+
+Gunakan kredensial berikut untuk masuk ke aplikasi:
+
+-   **Email** : admin@example.com
+
+-   **Password** : admin
+
+Setelah berhasil login, Anda akan diarahkan ke halaman utama aplikasi kasir.
+
+## Fitur Utama
+
+-   Manajemen Produk: Menambah, mengedit, dan menghapus produk yang tersedia di aplikasi.
+
+-   Transaksi Penjualan: Mengelola transaksi penjualan dan menghitung total harga.
+
+-   Laporan: Menampilkan laporan transaksi dan produk yang terjual.
+
+-   Login Sistem: Pengguna dapat login untuk mengakses aplikasi dan melakukan transaksi.
+
+## Lisensi
+
+Proyek ini dibuat untuk keperluan pembelajaran dan ujian komprehensif (Ujikom).
